@@ -1,15 +1,26 @@
+.deliverable {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .deliverable1 {
     background-color: lightblue;
 }
 
 .deliverable2 {
     background-color: lightgreen;
+
 }
 
 .iteration {
     background-color: lightgray;
     padding-left: 5px;
     border-left: 1px solid #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .m {
@@ -17,6 +28,21 @@
     color: white;
     padding-left: 5px;
     border-left: 2px solid #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
 
 }
+
+.w {
+    padding-left: 2px;
+    border-left: 2px solid #cccccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
 

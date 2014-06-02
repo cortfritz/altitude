@@ -4,11 +4,11 @@ block styles
   // Default home page
 
   link(href='/styles/bootstrap.css', rel='stylesheet')
-  link(href='/styles/app2.css', rel='stylesheet')
+  link(href='/styles/app.css', rel='stylesheet')
 
 
 block body
-    header(role="banner").navbar.navbar-static-top
+    header(role="banner").navbar.navbar-static-top.navbar-inverse
         .container-fluid
             .navbar-header
                 button.navbar-toggle(type="button", data-toggle="collapse", data-target=".bs-navbar-collapse")
@@ -17,57 +17,80 @@ block body
                     span.icon-bar
                     span.icon-bar
                 a(href="../").navbar-brand.brand altitude
-            nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
-                ul.nav.navbar-nav
-                    li.active
-                        a(href="/") this week
-                    li.active
-                        a(href="/commits/m1") m1
-                    li.active
-                        a(href="/commits/m2") m2
-                    if isAdmin
+                nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
+                    ul.nav.navbar-nav
                         li.active
-                            a(href="/admin") admin
+                            a(href="/") this week
+                        li.active
+                            a(href="/commits/m1") m1
+                        li.active
+                            a(href="/commits/m2") m2
+                        if isAdmin
+                            li.active
+                                a(href="/admin") admin
 
 
     .container
         h1 Marketplace Services Plan
+
+
         .row
-            .col-xs-4.border.m
-                    h2 M1
-            .col-xs-8.border.m
-                    h2 M2
+            .col-xs-2 &nbsp;
+            .col-xs-5.border.m
+                h2 M1
+            .col-xs-5.border.m
+                h2 M2
         .row
-            .col-xs-5.iteration: b i2
-            .col-xs-4.iteration: b i3
-            .col-xs-3.iteration: b i4
+          .col-xs-2 &nbsp;
+          .col-xs-5.iteration: b i2 (June 2 - July 3)
+          .col-xs-4.iteration: b i3 (July 7 - August 1)
+          .col-xs-1.iteration: b i4 (August 4 - xxx x)
         .row
-          .col-md-12
-              .row
-                .col-xs-8.deliverable1 Deliver this thing
-                    i (deliverable text)
-                .col-xs-4.deliverable2 Deliver this other thing, etc
-              .row
-                .col-xs-2: b w1
-                .col-xs-2: b w2
-                .col-xs-2: b w3
-                .col-xs-2: b w4
-                .col-xs-2: b w5
-                .col-xs-2: b w6
-              .row
-                .col-xs-2 task text 1
-                .col-xs-2 task text 2
-                .col-xs-2 task text 3
-                .col-xs-2 task text 4
-                .col-xs-2 task text a
-                .col-xs-2 task text b
-              .row
-                .col-xs-2 task text 1
-                .col-xs-2 task text 2
-                .col-xs-2 task text 3
-                .col-xs-2 task text 4
-                .col-xs-2 task text a
-                .col-xs-2 task text b
+            .col-xs-2 &nbsp;
+            .col-xs-10.deliverable2.deliverable EDS on BigCat for X13 video for PC
+        .row
+            .col-xs-2 &nbsp;
+            .col-xs-8.deliverable1.deliverable [DCR] Add a parental ratings for China Games
+
+        .row
+            .col-xs-2: b Teammember
+            .col-xs-2.w: b 6-Jun
+            .col-xs-2.w: b 13-Jun
+            .col-xs-2.w: b 20-Jun
+            .col-xs-2.w: b 27-Jun
+            .col-xs-2.w: b 3-Jul
+        .row
+            .col-xs-2 Frank Zhang (EHOME)
+            .col-xs-2.deliverable2.w [EDS - 360 music get off Zest] Add legacy subscription offer ID  to EDS response; Investigate EDS bug #205006
+            .col-xs-2.w [Content Deployment] Test the query performance of multiple sort orders in a single index.
+            .col-xs-2.w [Content Deployment] Implement change to content deployment to enable AP deployment w/o requiring a stop to content deployment; API tzar;
+            .col-xs-2.w: i Buffer
+        .row
+            .col-xs-2 Doug Olson (IEB)
+            .col-xs-2.w XMCS % Based discount Price Tiers
+            .col-xs-2.w XDP and XMCS feature and bug Fixes
+            .col-xs-2.w: i Vacation
+            .col-xs-2.w.deliverable2: [EDS on BigCat] Shadow-mode cut-over
+        .row
+            .col-xs-2 Dennis Russell
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+        .row
+            .col-xs-2 Reid Miller
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+        .row
+            .col-xs-2 Cyrus Jamula
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+            .col-xs-2.w &nbsp;
+
+
 
 
 
