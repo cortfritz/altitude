@@ -9,12 +9,26 @@ block styles
     script(src='/js/dependencies/jquery.jeditable.js')
     script(type='text/javascript').
         $(document).ready( function(){
-            $('.row').click(function(e){
-                $('.row').toggleClass('fitText');
-                $('.row').toggleClass('edit_area');
+            /*
+            $('.w').click(function(e){
+                alert(e.className)
+                $(e.target).toggleClass('fitText');
+                $(e.target).toggleClass('edit_area');
                 //$('.edit_area').editable('/task/create')
             });
+            */
         });
+
+        function toggleText(el){
+
+            $(document).ready( function(){
+              $(el.id).toggleClass('fitText');
+            })
+
+            //$(e.target).toggleClass('fitText');
+            //$(e.target).toggleClass('edit_area');
+            //$('.edit_area').editable('/task/create')
+        };
 
 
 block body
@@ -71,11 +85,11 @@ block body
             .col-xs-2.w: b 3-Jul
         .row
             .col-xs-2 Frank Zhang (EHOME)
-            .col-xs-2.deliverable2.w [EDS - 360 music get off Zest] Add legacy subscription offer ID  to EDS response; Investigate EDS bug #205006
+            #FrankWeek1.col-xs-2.deliverable2.w(onclick='toggleText(this)') [EDS - 360 music get off Zest] Add legacy subscription offer ID  to EDS response; Investigate EDS bug #205006
             .col-xs-2.w [Content Deployment] Test the query performance of multiple sort orders in a single index.
             .col-xs-2.w [Content Deployment] Implement change to content deployment to enable AP deployment w/o requiring a stop to content deployment; API tzar;
             .col-xs-2.w: i Buffer
-        .row.fitText
+        .row
             .col-xs-2 Doug Olson (IEB)
             .col-xs-2.w XMCS % Based discount Price Tiers
             .col-xs-2.w XDP and XMCS feature and bug Fixes
