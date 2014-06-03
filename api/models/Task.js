@@ -8,7 +8,15 @@
 module.exports = {
 
   attributes: {
-
+    title: 'string'
+    , areaPath: 'string'
+    , iteration: 'string'
+    , taskType: 'string'
+    , assignedTo: {model:'user'}
+    , createdBy:  {model:'user'}
+    , state: 'string'
+    , triage: 'string'
+    , description: 'string'
   }
 };
 

@@ -8,7 +8,8 @@
 module.exports = {
 
   attributes: {
-
+    title: 'string'
+    , tasks: [{model: 'task'}]
   }
 };
 

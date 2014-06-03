@@ -1,10 +1,20 @@
 extends ./layout
 
 block styles
-  // Default home page
+    // Default home page
 
-  link(href='/styles/bootstrap.css', rel='stylesheet')
-  link(href='/styles/app.css', rel='stylesheet')
+    link(href='/styles/bootstrap.css', rel='stylesheet')
+    link(href='/styles/app.css', rel='stylesheet')
+    script(src='http://code.jquery.com/jquery-1.9.0.js')
+    script(src='/js/dependencies/jquery.jeditable.js')
+    script(type='text/javascript').
+        $(document).ready( function(){
+            $('.row').click(function(e){
+                $('.row').toggleClass('fitText');
+                $('.row').toggleClass('edit_area');
+                //$('.edit_area').editable('/task/create')
+            });
+        });
 
 
 block body
@@ -36,15 +46,15 @@ block body
 
         .row
             .col-xs-2 &nbsp;
-            .col-xs-5.border.m
+            .col-xs-8.border.m
                 h2 M1
-            .col-xs-5.border.m
+            .col-xs-2.border.m
                 h2 M2
+
         .row
           .col-xs-2 &nbsp;
-          .col-xs-5.iteration: b i2 (June 2 - July 3)
-          .col-xs-4.iteration: b i3 (July 7 - August 1)
-          .col-xs-1.iteration: b i4 (August 4 - xxx x)
+          .col-xs-8.iteration: b i2 (June 2 - July 3)
+          .col-xs-2.iteration: b i3 (July 7 - August 1)
         .row
             .col-xs-2 &nbsp;
             .col-xs-10.deliverable2.deliverable EDS on BigCat for X13 video for PC
@@ -65,12 +75,12 @@ block body
             .col-xs-2.w [Content Deployment] Test the query performance of multiple sort orders in a single index.
             .col-xs-2.w [Content Deployment] Implement change to content deployment to enable AP deployment w/o requiring a stop to content deployment; API tzar;
             .col-xs-2.w: i Buffer
-        .row
+        .row.fitText
             .col-xs-2 Doug Olson (IEB)
             .col-xs-2.w XMCS % Based discount Price Tiers
             .col-xs-2.w XDP and XMCS feature and bug Fixes
             .col-xs-2.w: i Vacation
-            .col-xs-2.w.deliverable2: [EDS on BigCat] Shadow-mode cut-over
+            .col-xs-2.w.deliverable2 [EDS on BigCat] Shadow-mode cut-over
         .row
             .col-xs-2 Dennis Russell
             .col-xs-2.w &nbsp;
