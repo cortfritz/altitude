@@ -1,9 +1,13 @@
 .deliverable {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    white-space: nowrap;
+    .fitText
 }
+
+.editableTask {
+    wrap: soft;
+    rows: 10;
+    border-color: white;
+}
+
 .deliverable1 {
     background-color: lightblue;
 }
@@ -46,7 +50,7 @@
     border-right: 1px solid #cccccc;
 }
 
-.fitText .w{
+.fitText {
     overflow: hidden;
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;

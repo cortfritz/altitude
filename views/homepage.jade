@@ -7,8 +7,20 @@ block styles
     link(href='/styles/app.css', rel='stylesheet')
     script(src='http://code.jquery.com/jquery-1.9.0.js')
     script(src='/js/dependencies/jquery.jeditable.js')
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
     script(type='text/javascript').
         $(document).ready( function(){
+          $('.edit_area').editable(
+            function(value, settings){
+              console.log(value,settings)
+            }
+            , {
+              type: 'textarea'
+              , indicator: 'Saving...'
+              , tooltip: 'click to edit'
+              , rows: 5
+              , cssclass: 'editableTask'
+              });
             /*
             $('.w').click(function(e){
                 alert(e.className)
@@ -20,7 +32,7 @@ block styles
         });
 
         function toggleText(el){
-
+            alert(el)
             $(document).ready( function(){
               $(el.id).toggleClass('fitText');
             })
@@ -85,9 +97,29 @@ block body
             .col-xs-2.w: b 3-Jul
         .row
             .col-xs-2 Frank Zhang (EHOME)
-            #FrankWeek1.col-xs-2.deliverable2.w(onclick='toggleText(this)') [BDS - 360 music get off Zest] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
-            .col-xs-2.w [Content Deployment] Test the query performance of multiple sort orders in a single index.
-            .col-xs-2.w [Content Deployment] Implement change to content deployment to enable BP deployment w/o requiring a stop to content deployment; API tzar;
+            .col-xs-2.w
+                #accordion1.panel-group
+                    .panel.panel-default
+                        .panel-heading
+                            p.panel-title.fitText
+                                a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") [BDS - 360 music get off Zest] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
+                        #collapseOne.panel-collapse.collapse
+                            .panel-body.edit_area.editableTask [BDS - 360 music get off Zest] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
+            .col-xs-2.w
+                #accordion2.panel-group
+                    .panel.panel-default
+                        .panel-heading
+                            p.panel-title.fitText
+                                a(data-toggle="collapse", data-parent="#accordion2", href="#collapseTwo") [Content Deployment] Test the query performance of multiple sort orders in a single index.
+                        #collapseTwo.panel-collapse.collapse
+                            .panel-body.edit_area.editableTask [Content Deployment] Test the query performance of multiple sort orders in a single index.
+                    .panel.panel-default
+                        .panel-heading
+                            p.panel-title.fitText
+                                a(data-toggle="collapse", data-parent="#accordion2", href="#collapseThree") Some other task
+                        #collapseThree.panel-collapse.collapse
+                            .panel-body.edit_area.editableTask Some other task
+            .col-xs-2.: i Buffer
             .col-xs-2.w: i Buffer
         .row
             .col-xs-2 Doug Olson (IEB)
@@ -98,6 +130,7 @@ block body
         .row
             .col-xs-2 Dennis Russell
             .col-xs-2.w &nbsp;
+
             .col-xs-2.w &nbsp;
             .col-xs-2.w &nbsp;
             .col-xs-2.w &nbsp;
