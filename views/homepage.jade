@@ -1,5 +1,14 @@
 extends ./layout
 
+mixin taskPanel
+    #accordion3.panel-group
+        .panel.panel-default
+            .panel-heading
+                p.panel-title.fitText
+                    a(data-toggle="collapse", data-parent="#accordion3", href="#collapseA3c1"): i Buffer
+            #collapseA3c1.panel-collapse.collapse
+                .panel-body.edit_area.editableTask: i Buffer
+
 block styles
     // Default home page
 
@@ -74,19 +83,19 @@ block body
             .col-xs-2 &nbsp;
             .col-xs-8.border.m
                 h2 M1
-            .col-xs-2.border.m
+            .col-xs-1.border.m
                 h2 M2
 
         .row
           .col-xs-2 &nbsp;
           .col-xs-8.iteration: b i2 (June 2 - July 3)
-          .col-xs-2.iteration: b i3 (July 7 - August 1)
+          .col-xs-1.iteration: b i3 (July 7 - August 1)
         .row
             .col-xs-2 &nbsp;
-            .col-xs-10.deliverable2.deliverable EDS on BigCat for Y2K video for PC
+            .col-xs-6.deliverable2.deliverable EDS on BigCat for Y2K video for PC
         .row
-            .col-xs-2 &nbsp;
-            .col-xs-8.deliverable1.deliverable [DCR] Add a parental ratings for Fubar Games
+            .col-xs-4 &nbsp;
+            .col-xs-6.deliverable1.deliverable [DCR] Add a parental ratings for Fubar Games
 
         .row
             .col-xs-2: b Teammember
@@ -94,7 +103,7 @@ block body
             .col-xs-2.w: b 13-Jun
             .col-xs-2.w: b 20-Jun
             .col-xs-2.w: b 27-Jun
-            .col-xs-2.w: b 3-Jul
+            .col-xs-1.w: b 3-Jul
         .row
             .col-xs-2 Frank Zhang (EHOME)
             .col-xs-2.w
@@ -108,7 +117,7 @@ block body
             .col-xs-2.w
                 #accordion2.panel-group
                     .panel.panel-default
-                        .panel-heading
+                        .panel-heading.deliverable2
                             p.panel-title.fitText
                                 a(data-toggle="collapse", data-parent="#accordion2", href="#collapseTwo") [Content Deployment] Test the query performance of multiple sort orders in a single index.
                         #collapseTwo.panel-collapse.collapse
@@ -119,8 +128,23 @@ block body
                                 a(data-toggle="collapse", data-parent="#accordion2", href="#collapseThree") Some other task
                         #collapseThree.panel-collapse.collapse
                             .panel-body.edit_area.editableTask Some other task
-            .col-xs-2.: i Buffer
-            .col-xs-2.w: i Buffer
+            .col-xs-2.w
+                #accordion3.panel-group
+                    .panel.panel-default
+                        .panel-heading
+                            p.panel-title.fitText
+                                a(data-toggle="collapse", data-parent="#accordion3", href="#collapseA3c1"): i Buffer
+                        #collapseA3c1.panel-collapse.collapse
+                            .panel-body.edit_area.editableTask: i Buffer
+            .col-xs-2.w
+                #accordion4.panel-group
+                    .panel.panel-default
+                        .panel-heading
+                            p.panel-title.fitText
+                                a(data-toggle="collapse", data-parent="#accordion4", href="#collapseA4c1"): i Buffer
+                        #collapseA4c1.panel-collapse.collapse
+                            .panel-body.edit_area.editableTask: i Buffer
+
         .row
             .col-xs-2 Doug Olson (IEB)
             .col-xs-2.w XYZX % Based discount Price Tiers

@@ -9,11 +9,11 @@
 }
 
 .deliverable1 {
-    background-color: lightblue;
+    background-color: lightblue !important;
 }
 
 .deliverable2 {
-    background-color: lightgreen;
+    background-color: lightgreen !important;
 
 }
 
@@ -21,8 +21,9 @@
     background-color: lightgray;
     padding-left: 1px;
     padding-right: 1px;
-    border-left: 1px solid #cccccc;
+    /* border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
+    */
     overflow: hidden;
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
@@ -34,8 +35,10 @@
     color: white;
     padding-left: 1px;
     padding-right: 1px;
+    /*
     border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
+    */
     overflow: hidden;
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
