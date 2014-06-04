@@ -5,16 +5,17 @@ extends ./layout
 block styles
     // Default home page
 
-    link(href='/styles/bootstrap.css', rel='stylesheet')
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/styles/app.css', rel='stylesheet')
     script(src='http://code.jquery.com/jquery-1.9.0.js')
     script(src='//cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js')
-    script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
+    script(src='/js/bootstrap.min.js')
     script(type='text/javascript').
         $(document).ready( function(){
           $('.edit_area').editable(
             function(value, settings){
               console.log('editable',value,settings)
+
             }
             , {
               type: 'textarea'
@@ -116,6 +117,22 @@ block body
                                 a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") Active
                         #collapseOne.panel-collapse.collapse
                             .panel-body.edit_area.editableTask [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
+                            // img(src="/images/visualStudio.jpg", alt="Open TFS").taskOptionButton
+                            .button-group.btn-group-xs
+                                button(type="button").btn
+                                    span.glyphicon.glyphicon-ok
+                                button(type="button").btn
+                                    span.glyphicon.glyphicon-remove
+                                button(type="button").btn
+                                    span.glyphicon.glyphicon-wrench
+                                button(type="button").btn
+                                    span.glyphicon.glyphicon-stats
+                                button(type="button").btn
+                                    span.glyphicon.glyphicon-envelope
+                                button(type="button").btn
+                                    span.glyphicon.glyphicon-arrow-left
+                                button(type="button").btn
+                                    span.glyphicon.glyphicon-arrow-right
             .col-xs-2.w
                 #accordion2.panel-group
                     .panel.panel-default
@@ -157,6 +174,8 @@ block body
                 +taskPanel( 'accordion7', 'collapseA7C1', 'Vacation', 'Vacation' )
             .col-xs-2.w
                 +taskPanel( 'accordion8', 'collapseA8C1', 'Committed', '[BDS on GiantSnow] Shadow-mode cut-over', 'deliverable2' )
+            .col-xs-1.w
+                +taskPanel( 'accordion9', 'collapseA9C1', 'Committed', '[BDS on GiantSnow] Stabilization Buffer', 'deliverable2' )
         .row
             .col-xs-2 Dennis Russell
             .col-xs-2.w &nbsp;
