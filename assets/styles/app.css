@@ -80,3 +80,10 @@ invisitextarea {
 }
 
 
+.centered {
+    float: right;
+}
+
+.button-disabled {
+    opacity: 0.25;
+}

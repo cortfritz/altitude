@@ -11,10 +11,11 @@ block styles
     script(src='//cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js')
     script(src='/js/bootstrap.min.js')
     script(type='text/javascript').
+
         $(document).ready( function(){
           $('.edit_area').editable(
             function(value, settings){
-              console.log('editable',value,settings)
+                console.log('editable',value,settings)
 
             }
             , {
@@ -24,26 +25,21 @@ block styles
               , rows: 5
               , cssclass: 'editableTask'
               });
-            /*
-            $('.w').click(function(e){
-                alert(e.className)
-                $(e.target).toggleClass('fitText');
-                $(e.target).toggleClass('edit_area');
-                //$('.edit_area').editable('/task/create')
-            });
-            */
+          $('.editableTask').click( function() {
+            $(this).find('.glyphicon-ok').toggleClass('button-disabled');
+          });
         });
 
         function toggleText(el){
-            alert(el)
-            $(document).ready( function(){
-              $(el.id).toggleClass('fitText');
-            })
+                alert(el)
+                $(document).ready( function(){
+                  $(el.id).toggleClass('fitText');
+                })
 
-            //$(e.target).toggleClass('fitText');
-            //$(e.target).toggleClass('edit_area');
-            //$('.edit_area').editable('/task/create')
-        };
+                //$(e.target).toggleClass('fitText');
+                //$(e.target).toggleClass('edit_area');
+                //$('.edit_area').editable('/task/create')
+            };
 
 
 block body
@@ -118,21 +114,22 @@ block body
                         #collapseOne.panel-collapse.collapse
                             .panel-body.edit_area.editableTask [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
                             // img(src="/images/visualStudio.jpg", alt="Open TFS").taskOptionButton
-                            .button-group.btn-group-xs
-                                button(type="button").btn
-                                    span.glyphicon.glyphicon-ok
-                                button(type="button").btn
-                                    span.glyphicon.glyphicon-remove
-                                button(type="button").btn
-                                    span.glyphicon.glyphicon-wrench
-                                button(type="button").btn
-                                    span.glyphicon.glyphicon-stats
-                                button(type="button").btn
-                                    span.glyphicon.glyphicon-envelope
-                                button(type="button").btn
-                                    span.glyphicon.glyphicon-arrow-left
-                                button(type="button").btn
-                                    span.glyphicon.glyphicon-arrow-right
+                            .btn-toolbar.centered
+                                .btn-group.btn-group-xs
+                                    button(type="button").btn
+                                        span.glyphicon.glyphicon-arrow-left
+                                    button(type="button").btn
+                                        span.glyphicon.glyphicon-arrow-right
+                                .btn-group.btn-group-xs
+                                    button(type="button").btn
+                                        span.glyphicon.glyphicon-wrench
+                                    button(type="button").btn
+                                        span.glyphicon.glyphicon-envelope
+                                .btn-group.btn-group-xs
+                                    button(type="button").btn
+                                        span.glyphicon.glyphicon-ok.button-disabled
+                                    button(type="button").btn
+                                        span.glyphicon.glyphicon-remove.button-disabled
             .col-xs-2.w
                 #accordion2.panel-group
                     .panel.panel-default
