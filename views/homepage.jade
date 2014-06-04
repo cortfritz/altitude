@@ -8,13 +8,13 @@ block styles
     link(href='/styles/bootstrap.css', rel='stylesheet')
     link(href='/styles/app.css', rel='stylesheet')
     script(src='http://code.jquery.com/jquery-1.9.0.js')
-    script(src='/js/dependencies/jquery.jeditable.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js')
     script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
     script(type='text/javascript').
         $(document).ready( function(){
           $('.edit_area').editable(
             function(value, settings){
-              console.log(value,settings)
+              console.log('editable',value,settings)
             }
             , {
               type: 'textarea'
@@ -46,10 +46,10 @@ block styles
 
 
 block body
-    mixin taskPanel(panelGroupId, panelId, title, body)
+    mixin taskPanel(panelGroupId, panelId, title, body, highlight)
         .panel-group(id=panelGroupId)
             .panel.panel-default
-                .panel-heading
+                .panel-heading(class=highlight)
                     p.panel-title.fitText
                         a(data-toggle="collapse", data-parent='#' + panelGroupId, href='#' + panelId)= title
                 .panel-collapse.collapse(id=panelId)
@@ -113,7 +113,7 @@ block body
                     .panel.panel-default
                         .panel-heading
                             p.panel-title.fitText
-                                a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") [BDS - 360 music get off Zest] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
+                                a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") Active
                         #collapseOne.panel-collapse.collapse
                             .panel-body.edit_area.editableTask [BDS - 360 music get off Zest] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
             .col-xs-2.w
@@ -121,13 +121,13 @@ block body
                     .panel.panel-default
                         .panel-heading.deliverable2
                             p.panel-title.fitText
-                                a(data-toggle="collapse", data-parent="#accordion2", href="#collapseTwo") [Content Deployment] Test the query performance of multiple sort orders in a single index.
+                                a(data-toggle="collapse", data-parent="#accordion2", href="#collapseTwo") Committed
                         #collapseTwo.panel-collapse.collapse
                             .panel-body.edit_area.editableTask [Content Deployment] Test the query performance of multiple sort orders in a single index.
                     .panel.panel-default
                         .panel-heading
                             p.panel-title.fitText
-                                a(data-toggle="collapse", data-parent="#accordion2", href="#collapseThree") Some other task
+                                a(data-toggle="collapse", data-parent="#accordion2", href="#collapseThree") Proposed
                         #collapseThree.panel-collapse.collapse
                             .panel-body.edit_area.editableTask Some other task
             .col-xs-2.w
@@ -150,10 +150,13 @@ block body
         .row
             .col-xs-2 Doug Olson (IEB)
             .col-xs-2.w
-                +taskPanel( 'accordion5', 'collapseA5C1', 'Active', 'XYZX % Based discount Price Tiers' )
-            .col-xs-2.w XYZX and XYZY feature and bug Fixes
-            .col-xs-2.w: i Vacation
-            .col-xs-2.w.deliverable2 [BDS on BigCat] Shadow-mode cut-over
+                +taskPanel( 'accordion5', 'collapseA5C1', 'Complete', 'XYZX % Based discount Price Tiers' )
+            .col-xs-2.w
+                +taskPanel( 'accordion6', 'collapseA6C1', 'Committed', 'XYZX and XYZY feature and bug Fixes' )
+            .col-xs-2.w
+                +taskPanel( 'accordion7', 'collapseA7C1', 'Vacation', 'Vacation' )
+            .col-xs-2.w
+                +taskPanel( 'accordion8', 'collapseA8C1', 'Committed', '[BDS on BigCat] Shadow-mode cut-over', 'deliverable2' )
         .row
             .col-xs-2 Dennis Russell
             .col-xs-2.w &nbsp;

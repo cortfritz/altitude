@@ -6,6 +6,16 @@
     wrap: soft;
     rows: 10;
     border-color: white;
+    overflow: auto;
+    left: -100px;
+    top: -100px;
+
+}
+
+invisitextarea {
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
 }
 
 .deliverable1 {
@@ -49,8 +59,10 @@
 .w {
     padding-left: 1px;
     padding-right: 1px;
+    /*
     border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
+    */
 }
 
 .fitText {
