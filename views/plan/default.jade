@@ -1,4 +1,4 @@
-extends ./layout
+extends ../layout
 
 
 
@@ -66,7 +66,7 @@ block body
                     span.icon-bar
                     span.icon-bar
                     span.icon-bar
-                a(href="../").navbar-brand.brand altitude
+                a(href="../../").navbar-brand.brand altitude
                 nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
                     ul.nav.navbar-nav
                         li.active
@@ -88,8 +88,40 @@ block body
         h1 Marketplace Services Plan
 
 
+
+
+        // show json
+            each m, key in milestones
+                p= key + ' ' + m.numWeeks + ' weeks'
+                    ul
+                        each i, ikey in milestones[key].iterations
+                            li= ikey + ' ' + i.numWeeks + ' weeks'
+
         .row
+            //spacer column for teammember names
             .col-xs-2 &nbsp;
+            -var startMilestonePos = 0
+            -var currentMilestonePos = startMilestonePos
+
+            -var milestoneColumnCount = 0
+            -var milestoneWeekCount = 0
+            -var currentMilestoneWeekNum = 0
+
+            -var currentColumn = 3
+
+            while currentColumn < 12
+                if milestoneColumnCount == 0
+                    -milestoneWeekCount = milestoneArray[currentMilestonePos].numWeeks
+                    -milestoneColumnCount = (milestoneWeekCount > 9) ? 9 : milestoneWeekCount
+
+                div(class='.col-xs-' + currentColumn + '.border.m')
+                    -var m = milestoneArray[currentMilestonePos]
+                    h2= Object.keys(m)
+                -currentColumn += milestoneWeekCount
+
+
+
+
             .col-xs-8.border.m
                 h2 M1
             .col-xs-1.border.m

@@ -32,6 +32,11 @@ module.exports.routes = {
     , title: 'm$ altitude'
   }
 
+  , '/home': {
+    controller: 'plan'
+    , action: 'default'
+  }
+
 
   // Custom routes here...
 
