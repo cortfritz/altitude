@@ -11,6 +11,11 @@ block styles
     script(src='//cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js')
     script(src='/js/bootstrap.min.js')
     script(type='text/javascript').
+        function moveDiv(divToMove, targetDiv) {
+            var div1 = document.getElementById(divToMove);
+            var div2 = document.getElementById(targetDiv);
+            div2.appendChild(div1);
+        }
 
         $(document).ready( function(){
           $('.edit_area').editable(
@@ -26,7 +31,7 @@ block styles
               , cssclass: 'editableTask'
               });
           $('.editableTask').click( function() {
-            $(this).find('.glyphicon-ok').toggleClass('button-disabled');
+            $('.glyphicon-ok').toggleClass('button-disabled');
           });
         });
 
@@ -107,7 +112,7 @@ block body
             .col-xs-2 Frank Zhang (EHOME)
             .col-xs-2.w
                 #accordion1.panel-group
-                    .panel.panel-default
+                    #panel1.panel.panel-default
                         .panel-heading
                             p.panel-title.fitText
                                 a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") Active
@@ -116,14 +121,14 @@ block body
                             // img(src="/images/visualStudio.jpg", alt="Open TFS").taskOptionButton
                             .btn-toolbar.centered
                                 .btn-group.btn-group-xs
-                                    button(type="button").btn
+                                    button(type="button", onclick='moveDiv("panel1", "accordion1");').btn
                                         span.glyphicon.glyphicon-arrow-left
-                                    button(type="button").btn
+                                    button(type="button", onclick='moveDiv("panel1", "accordion2");').btn
                                         span.glyphicon.glyphicon-arrow-right
                                 .btn-group.btn-group-xs
-                                    button(type="button").btn
+                                    a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
                                         span.glyphicon.glyphicon-wrench
-                                    button(type="button").btn
+                                    a(href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
                                         span.glyphicon.glyphicon-envelope
                                 .btn-group.btn-group-xs
                                     button(type="button").btn
