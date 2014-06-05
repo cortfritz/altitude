@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing plans
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-
+var Joi = require('joi');
 
 
 var m1 =  {
@@ -19,10 +19,12 @@ var m1 =  {
           begin: '5/5/2014'
           , work: {}
         }
+
       , w2: {
           begin: '5/12/2014'
           , work: {}
         }
+
         , w3: {
           begin: '5/19/2014'
           , work: {}
@@ -32,8 +34,10 @@ var m1 =  {
           , work: {}
         }
 
+
       }
     }
+
     , i2: {
       begin: '6/2/2014'
       , end: '6/27/2014'
@@ -355,7 +359,7 @@ function createSchedule(milestones) {
     schedule.milestones[mkey].numWeeks = milestoneWeeks
     schedule.milestones[mkey].milestoneArray = iterationArray
   }
-  schedule.milestoneArray = milestoneArray
+  schedule['milestoneArray'] = milestoneArray
   return schedule
 }
 
@@ -369,7 +373,21 @@ var schedule = createSchedule({
 
 module.exports = {
   default: function renderHomePage(req,res){
-    res.view(schedule)
+
+    var schema = Joi.object().keys({
+      milestoneOffset: Joi.number().integer().min(0).max(1000)
+    })
+    console.log('req',req.query)
+    Joi.validate({milestoneOffset: req.query.milestoneOffset}, schema, function (err, value) {
+      if(err){
+        console.log(__filename,err)
+        return(err)
+      }
+      value['schedule'] = schedule
+      console.log(__filename,'validated',value)
+      res.view(value)
+    });
+
   }
 	
 };
