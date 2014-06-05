@@ -1,3 +1,8 @@
+a { display:block; /* Pre-existing code */ }
+.inline {
+    display:inline;
+}
+
 .deliverable {
     .fitText
 }

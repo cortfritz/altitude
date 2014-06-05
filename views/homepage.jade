@@ -8,17 +8,46 @@ block styles
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/styles/app.css', rel='stylesheet')
     script(src='http://code.jquery.com/jquery-1.9.0.js')
+    script(src='http://code.jquery.com/ui/1.10.4/jquery-ui.js')
     script(src='//cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js')
     script(src='/js/bootstrap.min.js')
     script(type='text/javascript').
-
         function moveDiv(divToMove, targetDiv) {
-            var div1 = document.getElementById(divToMove);
-            var div2 = document.getElementById(targetDiv);
-            div2.appendChild(div1);
+          var div1 = document.getElementById(divToMove);
+          var div2 = document.getElementById(targetDiv);
+          div2.appendChild(div1);
         }
 
+
+
         $(document).ready( function(){
+
+
+          $( ".panel-group" ).sortable({
+            connectWith: ".panel-group"
+          }).disableSelection();
+
+          $('#forwardArrow').click( function() {
+            var p = $(this).closest('.panel')
+            var pg = p.closest('.w').next('.w')
+
+            p.hide(150, function(){
+              pg.find('.panel-group').prepend(p)
+              p.show(150)
+            });
+
+          })
+
+          $('#backwardArrow').click( function() {
+            var p = $(this).closest('.panel')
+            var pg = p.closest('.w').prev('.w')
+            p.hide('fast', function(){
+              pg.find('.panel-group').prepend(p)
+              p.show('fast')
+            });
+
+          })
+
           $('.edit_area').editable(
             function(value, settings){
                 console.log('editable',value,settings)
@@ -116,20 +145,22 @@ block body
         .row
             .col-xs-2 Frank Zhang (EHOME)
             .col-xs-2.w
-                #accordion1.panel-group
-                    #panel1.panel.panel-default
-                        .panel-heading
-                            p.panel-title.fitText
-                                a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") Active
+                .panel-group.connectedSortable
+                    .panel.panel-default
+                        .panel-heading.fitText
+
+
+                            .panel-title.pull-left
+                              a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") Active
+                            .btn-group.btn-group-xs.pull-right
+                              a#backwardArrow(type="button").btn
+                                span.glyphicon.glyphicon-arrow-left
+                              a#forwardArrow(type="button").btn
+                                span.glyphicon.glyphicon-arrow-right
                         #collapseOne.panel-collapse.collapse
                             .panel-body.edit_area.editableTask [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
                             // img(src="/images/visualStudio.jpg", alt="Open TFS").taskOptionButton
-                            .btn-toolbar.centered
-                                .btn-group.btn-group-xs
-                                    button(type="button", onclick='moveDiv("panel1", "accordion1");').btn
-                                        span.glyphicon.glyphicon-arrow-left
-                                    button(type="button", onclick='moveDiv("panel1", "accordion2");').btn
-                                        span.glyphicon.glyphicon-arrow-right
+                            .btn-toolbar.pull-right
                                 .btn-group.btn-group-xs
                                     a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
                                         span.glyphicon.glyphicon-wrench
@@ -141,7 +172,7 @@ block body
                                     button(type="button").btn
                                         span.glyphicon.glyphicon-remove.button-disabled
             .col-xs-2.w
-                #accordion2.panel-group
+                #accordion2.panel-group.connectedSortable
                     .panel.panel-default
                         .panel-heading.deliverable2
                             p.panel-title.fitText
