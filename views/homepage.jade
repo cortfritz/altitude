@@ -1,5 +1,29 @@
 extends ./layout
 
+mixin panel(title,body)
+    .panel-group.connectedSortable
+        .panel.panel-default
+            .panel-heading.fitText
+                .panel-title.pull-left
+                    a(data-toggle="collapse",  href="#collapseFoo")= title
+                .btn-group.btn-group-xs.pull-right
+                    a(type="button").btn.backward-arrow
+                        span.glyphicon.glyphicon-arrow-leftd
+                    a(type="button").btn.forward-arrow
+                        span.glyphicon.glyphicon-arrow-right
+            #collapseFoo.panel-collapse.collapse
+                .panel-body.edit_area.editableTask= body
+                .btn-toolbar.pull-right
+                    .btn-group.btn-group-xs
+                        a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
+                            span.glyphicon.glyphicon-wrench
+                        a(href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
+                            span.glyphicon.glyphicon-envelope
+                    .btn-group.btn-group-xs
+                        button(type="button").btn
+                            span.glyphicon.glyphicon-ok.button-disabled
+                        button(type="button").btn
+                            span.glyphicon.glyphicon-remove.button-disabled
 
 
 block styles
@@ -17,7 +41,9 @@ block styles
 
 
         $(document).ready( function(){
+          $( '.teamMember' ).click( function() {
 
+          })
 
           $( ".panel-group" ).sortable({
             connectWith: ".panel-group"
@@ -139,13 +165,13 @@ block body
             .col-xs-2.w: b 27-Jun
             .col-xs-1.w: b 3-Jul
         .row
-            .col-xs-2 Frank Zhang (EHOME)
+            .col-xs-2.teamMember Frank Zhang (EHOME)
             .col-xs-2.w
                 .panel-group.connectedSortable
                     .panel.panel-default
                         .panel-heading.fitText
                             .panel-title.pull-left
-                              a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") In Progress
+                              a(data-toggle="collapse", href="#collapseOne") In Progress
                             .btn-group.btn-group-xs.pull-right
                               a(type="button").btn.backward-arrow
                                 span.glyphicon.glyphicon-arrow-left
@@ -169,7 +195,7 @@ block body
                     .panel.panel-default
                         .panel-heading.fitText.deliverable2
                           .panel-title.pull-left
-                            a(data-toggle="collapse", data-parent="#accordion1", href="#collapseOne") In Progress
+                            a(data-toggle="collapse", href="#collapseTwo") In Progress
                           .btn-group.btn-group-xs.pull-right
                             a(type="button").btn.backward-arrow
                               span.glyphicon.glyphicon-arrow-left

@@ -96,63 +96,27 @@ block body
                             a(href="#") m3
 
 
+    -var currentMilestoneIndex = milestoneOffset
+    -var currentMilestoneWeekNum = 0
+    -var TOTAL_COLUMNS = 12
+    -var NUM_COLUMNS_NOT_USED = 1
+    -var NUM_TEAMMEMBER_COLUMNS = 2
+    -var MAX_COLUMNS_FOR_MILESTONES = TOTAL_COLUMNS - (NUM_COLUMNS_NOT_USED + NUM_TEAMMEMBER_COLUMNS)
+    -var NUM_COLUMNS_PER_WEEK = 2
+    -var currentColumn = 1 + NUM_TEAMMEMBER_COLUMNS
+    -var numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
 
     .container
         .row
           .col-xs-11
             h1 Marketplace Services Plan
-              h2 Javascript Capture Keyboard Input Example
-                h3 onkeydown - onkeyup
-                p
-                  | Key Pressed :
-                  span#kp
-                  br
-                  | Key Code:
-                  span#kc
-                p#status Keyboard Event Status
-
-
-
-
-    // show json
-            each m, key in milestones
-                p= key + ' ' + m.numWeeks + ' weeks'
-                    ul
-                        each i, ikey in milestones[key].iterations
-                            li= ikey + ' ' + i.numWeeks + ' weeks'
-
         .row
             //spacer column for teammember names
           .col-xs-2 &nbsp;
-          -var currentMilestoneIndex = milestoneOffset
-
-          -var currentMilestoneWeekNum = 0
-
-          -var TOTAL_COLUMNS = 12
-          -var NUM_COLUMNS_NOT_USED = 1
-          -var NUM_TEAMMEMBER_COLUMNS = 2
-          -var MAX_COLUMNS_FOR_MILESTONES = TOTAL_COLUMNS - (NUM_COLUMNS_NOT_USED + NUM_TEAMMEMBER_COLUMNS)
-          -var NUM_COLUMNS_PER_WEEK = 2
-
-          -var currentColumn = 1 + NUM_TEAMMEMBER_COLUMNS
-          -var numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
 
 
-          while currentColumn < 12
 
-            -var m = schedule.milestoneArray[currentMilestoneIndex]
-            -var mTitle = m.name
-
-            -var numWeeksForThisMilestone = m[mTitle].numWeeks
-
-            -var numColumnsForThisMilestone = (numWeeksForThisMilestone * NUM_COLUMNS_PER_WEEK)
-            -var numMilestoneColumnsToDisplay = (numColumnsForThisMilestone <= numColumnsRemaining) ? numColumnsForThisMilestone : numColumnsRemaining
-            -numColumnsRemaining -= numMilestoneColumnsToDisplay
-
-            div(class='col-xs-' + numMilestoneColumnsToDisplay + ' border m')
-                h2= m.name
-            -currentColumn += numMilestoneColumnsToDisplay
-
+        
 
 
 //
