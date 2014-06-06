@@ -3,6 +3,12 @@ a { display:block; /* Pre-existing code */ }
     display:inline;
 }
 
+.timeControl {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
 .deliverable {
     .fitText
 }
@@ -17,7 +23,7 @@ a { display:block; /* Pre-existing code */ }
 
 }
 
-invisitextarea {
+.invisitextarea {
     border-style: none;
     border-color: Transparent;
     overflow: auto;
@@ -34,7 +40,7 @@ invisitextarea {
 
 .iteration {
     background-color: lightgray;
-    padding-left: 1px;
+    padding-left: 4px;
     padding-right: 1px;
     /* border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
@@ -48,7 +54,7 @@ invisitextarea {
 .m {
     background-color: darkgray;
     color: white;
-    padding-left: 1px;
+    padding-left: 4px;
     padding-right: 1px;
     /*
     border-left: 1px solid #cccccc;

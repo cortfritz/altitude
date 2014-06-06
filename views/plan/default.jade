@@ -12,17 +12,17 @@ block styles
     script(src='/js/bootstrap.min.js')
     script(type='text/javascript').
         document.onkeydown = function(event) {
-          var key_press = String.fromCharCode(event.keyCode);
-          var key_code = event.keyCode;
-          document.getElementById('kp').innerHTML = key_press;
-          document.getElementById('kc').innerHTML = key_code;
-          var status = document.getElementById('status');
-          status.innerHTML = "DOWN Event Fired For : "+key_press;
+            var key_press = String.fromCharCode(event.keyCode);
+            var key_code = event.keyCode;
+            document.getElementById('kp').innerHTML = key_press;
+            document.getElementById('kc').innerHTML = key_code;
+            var status = document.getElementById('status');
+            status.innerHTML = "DOWN Event Fired For : "+key_press;
         }
         document.onkeyup = function(event){
-          var key_press = String.fromCharCode(event.keyCode);
-          var status = document.getElementById('status');
-          status.innerHTML = "UP Event Fired For : "+key_press;
+            var key_press = String.fromCharCode(event.keyCode);
+            var status = document.getElementById('status');
+            status.innerHTML = "UP Event Fired For : "+key_press;
         }
 
         function moveDiv(divToMove, targetDiv) {
@@ -32,33 +32,32 @@ block styles
         }
 
         $(document).ready( function(){
-          $('.edit_area').editable(
+            $('.edit_area').editable(
             function(value, settings){
                 console.log('editable',value,settings)
-
             }
             , {
-              type: 'textarea'
-              , indicator: 'Saving...'
-              , tooltip: 'click to edit'
-              , rows: 5
-              , cssclass: 'editableTask'
-              });
-          $('.editableTask').click( function() {
-            $('.glyphicon-ok').toggleClass('button-disabled');
-          });
+                type: 'textarea'
+                , indicator: 'Saving...'
+                , tooltip: 'click to edit'
+                , rows: 5
+                , cssclass: 'editableTask'
+            });
+            $('.editableTask').click( function() {
+              $('.glyphicon-ok').toggleClass('button-disabled');
+            });
         });
 
         function toggleText(el){
-                alert(el)
-                $(document).ready( function(){
-                  $(el.id).toggleClass('fitText');
-                })
+            alert(el)
+            $(document).ready( function(){
+              $(el.id).toggleClass('fitText');
+            })
 
-                //$(e.target).toggleClass('fitText');
-                //$(e.target).toggleClass('edit_area');
-                //$('.edit_area').editable('/task/create')
-            };
+            //$(e.target).toggleClass('fitText');
+            //$(e.target).toggleClass('edit_area');
+            //$('.edit_area').editable('/task/create')
+        };
 
 
 block body
@@ -95,41 +94,112 @@ block body
                         li.active
                             a(href="#") m3
 
-
-    -var currentMilestoneIndex = milestoneOffset
-    -var currentMilestoneWeekNum = 0
+    //- we will render each part of the grid row by row
+    //- first milestones, then iterations, then weeks, then deliverables, then each teammember
+    -var milestoneIndex = milestoneOffset
+    -var milestoneWeekNum = 0
     -var TOTAL_COLUMNS = 12
     -var NUM_COLUMNS_NOT_USED = 1
     -var NUM_TEAMMEMBER_COLUMNS = 2
     -var MAX_COLUMNS_FOR_MILESTONES = TOTAL_COLUMNS - (NUM_COLUMNS_NOT_USED + NUM_TEAMMEMBER_COLUMNS)
     -var NUM_COLUMNS_PER_WEEK = 2
-    -var currentColumn = 1 + NUM_TEAMMEMBER_COLUMNS
     -var numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
+    -var numColumnsToDisplay = 0
+    -var NUM_MILESTONES = schedule.milestones.length
+
 
     .container
         .row
-          .col-xs-11
-            h1 Marketplace Services Plan
+            .col-xs-11
+                h1 Marketplace Services Plan
         .row
-            //spacer column for teammember names
-          .col-xs-2 &nbsp;
+
+            .col-xs-2
+                .pull-right
+                    span.glyphicon.glyphicon-chevron-left.timeControl
+                    span.glyphicon.glyphicon-chevron-right.timeControl
+            while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
+                //-get current milestone
+                -var m = schedule.milestones[milestoneIndex]
+                -milestoneIndex++
+
+                //- get number of columns for this milestone
+                -var numColumnsForThisMilestone = m.numWeeks * NUM_COLUMNS_PER_WEEK
+                -numColumnsToDisplay = (numColumnsForThisMilestone <= numColumnsRemaining) ? numColumnsForThisMilestone : numColumnsRemaining
+                div(class='col-xs-' + numColumnsToDisplay + ' border m'): h4= m.name
+                -numColumnsRemaining -= numColumnsToDisplay
 
 
-
-        
-
-
-//
-
-            .col-xs-8.border.m
-                h2 M1
-            .col-xs-1.border.m
-                h2 M2
-//
         .row
-          .col-xs-2 &nbsp;
-          .col-xs-8.iteration: b i2 (June 2 - July 3)
-          .col-xs-1.iteration: b i3 (July 7 - August 1)
+
+            .col-xs-2
+                .pull-right
+                    span.glyphicon.glyphicon-chevron-left.timeControl
+                    span.glyphicon.glyphicon-chevron-right.timeControl
+
+            //- reset variables that control loop
+            -numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
+            -milestoneIndex = 0
+
+
+
+            while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
+                //- get current milestone
+                -var m = schedule.milestones[milestoneIndex]
+                -milestoneIndex++
+
+                -var iterationIndex = 0
+                -var numIterations = m.iterations.length
+                while (numColumnsRemaining > 0) && (iterationIndex < numIterations)
+                    //- get current iteration
+                    -var i = m.iterations[iterationIndex]
+                    -iterationIndex++
+
+                    //get number of columns for this iteration
+                    -var numColumnsForThisIteration = i.numWeeks * NUM_COLUMNS_PER_WEEK
+                    -numColumnsToDisplay = (numColumnsForThisIteration <= numColumnsRemaining) ? numColumnsForThisIteration : numColumnsRemaining
+                    -var startDate = new Date(i.begin)
+                    -var endDate = new Date(i.end)
+                    -var iterationPeriod = startDate.getMonth() + '/' + startDate.getDay() + '-' + endDate.getMonth() + '/' + endDate.getDay()
+                    div(class='col-xs-' + numColumnsToDisplay + ' iteration')
+                        b= i.name
+                            |  (#{iterationPeriod})
+                    -numColumnsRemaining -= numColumnsToDisplay
+
+        .row
+            .col-xs-2
+                .pull-right
+                    span.glyphicon.glyphicon-chevron-left.timeControl
+                    span.glyphicon.glyphicon-chevron-right.timeControl
+
+            //- reset variables that control loop
+            -numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
+            -milestoneIndex = 0
+            
+            while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
+                //- get current milestone
+                -var m = schedule.milestones[milestoneIndex]
+                -milestoneIndex++
+                -var iterationIndex = 0
+                -var numIterations = m.iterations.length
+                while (numColumnsRemaining > 0) && (iterationIndex < numIterations)
+                    //- get current iteration
+                    -var i = m.iterations[iterationIndex]
+                    -iterationIndex++
+                    //get number of columns for this iteration
+                    -var numColumnsForThisIteration = i.numWeeks * NUM_COLUMNS_PER_WEEK
+                    -numColumnsToDisplay = (numColumnsForThisIteration <= numColumnsRemaining) ? numColumnsForThisIteration : numColumnsRemaining
+                    -var startDate = new Date(i.begin)
+                    -var endDate = new Date(i.end)
+                    -var iterationPeriod = startDate.getMonth() + '/' + startDate.getDay() + '-' + endDate.getMonth() + '/' + endDate.getDay()
+                    div(class='col-xs-' + numColumnsToDisplay + ' iteration')
+                        b= i.name
+                            | (#{iterationPeriod})
+                    -numColumnsRemaining -= numColumnsToDisplay
+
+
+
+//-
         .row
             .col-xs-2 &nbsp;
             .col-xs-6.deliverable2.deliverable EXY on GiantSnow for Y2K video for PC
