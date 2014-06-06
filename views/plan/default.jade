@@ -82,22 +82,12 @@ block body
                 nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
                     ul.nav.navbar-nav
                         li.active
-                            a(href="#") this week
-                        li.active
-                            a(href="#") last month
-                        li.active
-                            a(href="#") next month
-                        li.active
-                            a(href="#") m1
-                        li.active
-                            a(href="#") m2
-                        li.active
-                            a(href="#") m3
+                            a(href="/home") experiement
 
     //- we will render each part of the grid row by row
     //- first milestones, then iterations, then weeks, then deliverables, then each teammember
     -var milestoneIndex = milestoneOffset
-    -var milestoneWeekNum = 0
+    -var milestoneWeekNum = weekOffset
     -var TOTAL_COLUMNS = 12
     -var NUM_COLUMNS_NOT_USED = 1
     -var NUM_TEAMMEMBER_COLUMNS = 2
@@ -107,11 +97,49 @@ block body
     -var numColumnsToDisplay = 0
     -var NUM_MILESTONES = schedule.milestones.length
 
-
+    -var DATE_FORMAT = { month: "numeric", day: "numeric", weekday: "none" };
     .container
         .row
             .col-xs-11
                 h1 Marketplace Services Plan
+        .row#MilestoneRow
+            .col-xs-2
+                .pull-right
+                    span.glyphicon.glyphicon-chevron-left.timeControl
+                    span.glyphicon.glyphicon-chevron-right.timeControl
+        .row#IterationRow
+
+            .col-xs-2
+                .pull-right
+                    span.glyphicon.glyphicon-chevron-left.timeControl
+                    span.glyphicon.glyphicon-chevron-right.timeControl
+        .row#WeekRow
+
+            .col-xs-2
+                .pull-right
+                    span.glyphicon.glyphicon-chevron-left.timeControl
+                    span.glyphicon.glyphicon-chevron-right.timeControl
+
+        while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
+            //- get current milestone
+            -var m = schedule.milestones[milestoneIndex]
+            -milestoneIndex++
+            -var iterationIndex = 0
+            -var numIterations = m.iterations.length
+            while (numColumnsRemaining > 0) && (iterationIndex < numIterations)
+                //- get current iteration
+                -var i = m.iterations[iterationIndex++]
+                -var weekIndex = 0
+                -var numWeeks = i.weeks.length
+                while (numColumnsRemaining > 0) && (weekIndex < numWeeks)
+                    -var w = i.weeks[weekIndex++]
+                    -var startDate = new Date(w.begin)
+                    -var weekDisplay = startDate.toLocaleDateString("en-us", DATE_FORMAT)
+                    script!= "$(document).ready( function(){alert('foo'); $('#WeekRow').appendChild('<div class=\"col-xs-" + NUM_COLUMNS_PER_WEEK + " w\"><b>" + 'foo' + "</b></div>');});"
+                        //- div(class='col-xs-' + NUM_COLUMNS_PER_WEEK + ' w')
+                        b= (startDate.getMonth() + 1) + '/' + (startDate.getDate() )
+                    -numColumnsRemaining -= NUM_COLUMNS_PER_WEEK
+
         .row
 
             .col-xs-2
@@ -137,6 +165,7 @@ block body
                     span.glyphicon.glyphicon-chevron-left.timeControl
                     span.glyphicon.glyphicon-chevron-right.timeControl
 
+
             //- reset variables that control loop
             -numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
             -milestoneIndex = 0
@@ -160,7 +189,7 @@ block body
                     -numColumnsToDisplay = (numColumnsForThisIteration <= numColumnsRemaining) ? numColumnsForThisIteration : numColumnsRemaining
                     -var startDate = new Date(i.begin)
                     -var endDate = new Date(i.end)
-                    -var iterationPeriod = startDate.getMonth() + '/' + startDate.getDay() + '-' + endDate.getMonth() + '/' + endDate.getDay()
+                    -var iterationPeriod = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '-' + (endDate.getMonth() + 1) + '/' + endDate.getDate()
                     div(class='col-xs-' + numColumnsToDisplay + ' iteration')
                         b= i.name
                             |  (#{iterationPeriod})
@@ -184,18 +213,19 @@ block body
                 -var numIterations = m.iterations.length
                 while (numColumnsRemaining > 0) && (iterationIndex < numIterations)
                     //- get current iteration
-                    -var i = m.iterations[iterationIndex]
-                    -iterationIndex++
-                    //get number of columns for this iteration
-                    -var numColumnsForThisIteration = i.numWeeks * NUM_COLUMNS_PER_WEEK
-                    -numColumnsToDisplay = (numColumnsForThisIteration <= numColumnsRemaining) ? numColumnsForThisIteration : numColumnsRemaining
-                    -var startDate = new Date(i.begin)
-                    -var endDate = new Date(i.end)
-                    -var iterationPeriod = startDate.getMonth() + '/' + startDate.getDay() + '-' + endDate.getMonth() + '/' + endDate.getDay()
-                    div(class='col-xs-' + numColumnsToDisplay + ' iteration')
-                        b= i.name
-                            | (#{iterationPeriod})
-                    -numColumnsRemaining -= numColumnsToDisplay
+                    -var i = m.iterations[iterationIndex++]
+                    -var weekIndex = 0
+                    -var numWeeks = i.weeks.length
+                    while (numColumnsRemaining > 0) && (weekIndex < numWeeks)
+                        -var w = i.weeks[weekIndex++]
+                        -var startDate = new Date(w.begin)
+                        -var weekDisplay = startDate.toLocaleDateString("en-us", DATE_FORMAT)
+                        script!= "$(document).ready( function(){$('#WeekRow').appendChild('<div class=\"col-xs-" + NUM_COLUMNS_PER_WEEK + " w\"><b>" + 'foo' + "</b></div>')})"
+
+
+                        //- div(class='col-xs-' + NUM_COLUMNS_PER_WEEK + ' w')
+                            b= (startDate.getMonth() + 1) + '/' + (startDate.getDate() )
+                        -numColumnsRemaining -= NUM_COLUMNS_PER_WEEK
 
 
 
