@@ -388,33 +388,63 @@ var postThreshold = {
 
 
 
-function createSchedule(milestones) {
+function createSchedule(milestones, dateOffset) {
   var schedule = {milestones: milestones}
   var totalWeeks = 0
+  var totalWeeksHidden = 0
+  var d = new Date(dateOffset)
+  sails.log(__filename, 'creating schedule for date',d)
   for (var mkey in milestones) {
     var m = milestones[mkey]
+    if(new Date(m.end) <  d ){
+      console.log(__filename,'skipping milestone', m.begin,d)
+      schedule['hiddenMilestones'] = mkey + 1
+      m.hidden = true
+
+    }
 
     var milestoneWeeks = 0
+    var milestoneWeeksHidden = 0
     for (var ikey in m.iterations) {
       var i = m.iterations[ikey]
+      if(new Date(i.end) <  d ){
+        console.log(__filename,'skipping iteration', i.begin,d)
+        schedule.milestones[mkey]['hiddenIterations'] = ikey + 1
+        i.hidden = true
+      }
 
       var iterationWeeks = 0
+      var iterationWeeksHidden = 0
       for (var wkey in i.weeks) {
         var w = i.weeks[wkey]
+        if((new Date(w.begin) + 7) <  d ){
+          console.log(__filename,'skipping week', w.begin,d)
+          w.hidden = true
+          iterationWeeksHidden ++
+        }
+
         iterationWeeks++
       }
-      console.log(__filename,'mkey',mkey,'mile',schedule.milestones)
+
       schedule.milestones[mkey].iterations[ikey].numWeeks = iterationWeeks
       milestoneWeeks += iterationWeeks
+
+      schedule.milestones[mkey].iterations[ikey].numWeeksHidden = iterationWeeksHidden
+      milestoneWeeksHidden += iterationWeeksHidden
     }
     schedule.milestones[mkey].numWeeks = milestoneWeeks
     totalWeeks += milestoneWeeks
-  }
 
+    schedule.milestones[mkey].numWeeksHidden = milestoneWeeksHidden
+    totalWeeksHidden += milestoneWeeksHidden
+
+  }
+  schedule['numWeeks'] = totalWeeks
+  schedule['numWeeksHidden'] = totalWeeksHidden
   return schedule
 }
 
-var schedule = createSchedule([m1,m2,m3,postThreshold])
+
 
 
 module.exports = {
@@ -423,27 +453,39 @@ module.exports = {
     var schema = Joi.object().keys({
 
       dateOffset: Joi.date().min('4/4/1975').max('12/31/2999').default(new Date())
-      , weekOffset: Joi.number().integer().min(-1000).max(1000).default(0)
+      , weekNumberOffset: Joi.number().integer().min(-1000).max(1000).default(0)
       , iterationOffset: Joi.number().integer().min(-1000).max(1000).default(0)
       , milestoneOffset: Joi.number().integer().min(-1000).max(1000).default(0)
 
     })
     Joi.validate({
       dateOffset: req.query.dateOffset
-      , weekOffset: req.query.weekOffset
+      , weekNumberOffset: req.query.weekNumberOffset
       , iterationOffset: req.query.iterationOffset
       , milestoneOffset: req.query.milestoneOffset
     }, schema, function (err, value) {
       if(err){
-        console.log(__filename,err)
+        sails.log(__filename,err)
         return(err)
       }
-      value['schedule'] = schedule
-      console.log(__filename,'validated',value)
+
+      sails.log(__filename,'date',value.dateOffset)
+
+      value['schedule'] = createSchedule([m1,m2,m3,postThreshold], value.dateOffset)
+
+
+      var lastWeek = new Date(value.dateOffset)
+      lastWeek.setDate(lastWeek.getDate() - 7)
+      value['lastWeek'] = lastWeek
+
+      var nextWeek = new Date(value.dateOffset)
+      nextWeek.setDate(nextWeek.getDate() + 7)
+      value['nextWeek'] = nextWeek
+
+      console.log(__filename, 'dates',value.dateOffset, value.lastWeek, value.nextWeek)
       res.view(value)
     });
 
   }
 	
 };
-
