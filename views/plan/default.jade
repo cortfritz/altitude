@@ -7,23 +7,21 @@ block styles
 
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/styles/app.css', rel='stylesheet')
-    script(src='http://code.jquery.com/jquery-1.9.0.js')
-    script(src='//cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js')
-    script(src='/js/bootstrap.min.js')
+    script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.0.js')
+    script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js')
+    script(type='text/javascript', src='/js/bootstrap.min.js')
+    script(type='text/javascript')!= 'function getOffsets(){ return { milestone: ' + milestoneOffset + ', week: ' + weekOffset + '}}'
+    script(type='text/javascript')!= 'function getMilestones(){ return ' + JSON.stringify(schedule.milestones) + '}'
+    script(type='text/javascript')!= 'function getSchedule(){ return ' + JSON.stringify(schedule) + '}'
+
+
+
+
+
+
+
     script(type='text/javascript').
-        document.onkeydown = function(event) {
-            var key_press = String.fromCharCode(event.keyCode);
-            var key_code = event.keyCode;
-            document.getElementById('kp').innerHTML = key_press;
-            document.getElementById('kc').innerHTML = key_code;
-            var status = document.getElementById('status');
-            status.innerHTML = "DOWN Event Fired For : "+key_press;
-        }
-        document.onkeyup = function(event){
-            var key_press = String.fromCharCode(event.keyCode);
-            var status = document.getElementById('status');
-            status.innerHTML = "UP Event Fired For : "+key_press;
-        }
+
 
         function moveDiv(divToMove, targetDiv) {
             var div1 = document.getElementById(divToMove);
@@ -32,6 +30,18 @@ block styles
         }
 
         $(document).ready( function(){
+
+            $( '.teamMember' ).click( function() {
+                var r = $(this).closest('.row')
+                var d = $('#taskTemplate').clone().attr("id", "newTask")
+                r.find('.panel-group').first().append(d)
+                initializeTasks()
+                d.show('slow')
+
+
+            })
+
+
             $('.edit_area').editable(
             function(value, settings){
                 console.log('editable',value,settings)
@@ -86,146 +96,93 @@ block body
 
     //- we will render each part of the grid row by row
     //- first milestones, then iterations, then weeks, then deliverables, then each teammember
-    -var milestoneIndex = milestoneOffset
-    -var milestoneWeekNum = weekOffset
-    -var TOTAL_COLUMNS = 12
-    -var NUM_COLUMNS_NOT_USED = 1
-    -var NUM_TEAMMEMBER_COLUMNS = 2
-    -var MAX_COLUMNS_FOR_MILESTONES = TOTAL_COLUMNS - (NUM_COLUMNS_NOT_USED + NUM_TEAMMEMBER_COLUMNS)
-    -var NUM_COLUMNS_PER_WEEK = 2
-    -var numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
-    -var numColumnsToDisplay = 0
-    -var NUM_MILESTONES = schedule.milestones.length
+        -var milestoneIndex = milestoneOffset
+        -var milestoneWeekNum = weekOffset
+        -var TOTAL_COLUMNS = 12
+        -var NUM_COLUMNS_NOT_USED = 1
+        -var NUM_TEAMMEMBER_COLUMNS = 2
+        -var MAX_COLUMNS_FOR_MILESTONES = TOTAL_COLUMNS - (NUM_COLUMNS_NOT_USED + NUM_TEAMMEMBER_COLUMNS)
+        -var NUM_COLUMNS_PER_WEEK = 2
+        -var numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
+        -var numColumnsToDisplay = 0
+        -var NUM_MILESTONES = schedule.milestones.length
 
-    -var DATE_FORMAT = { month: "numeric", day: "numeric", weekday: "none" };
+
     .container
         .row
             .col-xs-11
                 h1 Marketplace Services Plan
-        .row#MilestoneRow
+        #MilestoneRow.row
             .col-xs-2
                 .pull-right
-                    span.glyphicon.glyphicon-chevron-left.timeControl
-                    span.glyphicon.glyphicon-chevron-right.timeControl
-        .row#IterationRow
+                    a(href='/home/?dateOffset=' + encodeURIComponent(lastWeek) ).glyphicon.glyphicon-chevron-left.timeControl
+                    a(href='/home/?dateOffset=' + encodeURIComponent(nextWeek) ).glyphicon.glyphicon-chevron-right.timeControl
+        #IterationRow.row
 
             .col-xs-2
-                .pull-right
-                    span.glyphicon.glyphicon-chevron-left.timeControl
-                    span.glyphicon.glyphicon-chevron-right.timeControl
-        .row#WeekRow
 
+        #WeekRow.row
             .col-xs-2
-                .pull-right
-                    span.glyphicon.glyphicon-chevron-left.timeControl
-                    span.glyphicon.glyphicon-chevron-right.timeControl
 
-        while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
-            //- get current milestone
-            -var m = schedule.milestones[milestoneIndex]
-            -milestoneIndex++
-            -var iterationIndex = 0
-            -var numIterations = m.iterations.length
-            while (numColumnsRemaining > 0) && (iterationIndex < numIterations)
-                //- get current iteration
-                -var i = m.iterations[iterationIndex++]
-                -var weekIndex = 0
-                -var numWeeks = i.weeks.length
-                while (numColumnsRemaining > 0) && (weekIndex < numWeeks)
-                    -var w = i.weeks[weekIndex++]
-                    -var startDate = new Date(w.begin)
-                    -var weekDisplay = startDate.toLocaleDateString("en-us", DATE_FORMAT)
-                    script!= "$(document).ready( function(){alert('foo'); $('#WeekRow').appendChild('<div class=\"col-xs-" + NUM_COLUMNS_PER_WEEK + " w\"><b>" + 'foo' + "</b></div>');});"
+    script(type='text/javascript').
+        var schedule = getSchedule()
+        var milestoneIndex = schedule.hiddenMilestones | 0
+        var TOTAL_COLUMNS = 12 //bootstrap gives us 12 columns
+        var NUM_COLUMNS_NOT_USED = 1 //one short of the 12 available in bootstrap.  using all 12 breaks in some IE
+        var NUM_TEAMMEMBER_COLUMNS = 2
+        var MAX_COLUMNS_FOR_MILESTONES = TOTAL_COLUMNS - (NUM_COLUMNS_NOT_USED + NUM_TEAMMEMBER_COLUMNS)
+        var NUM_COLUMNS_PER_WEEK = 2
+        var numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
+        var numColumnsToDisplay = 0
+        var NUM_MILESTONES = schedule.milestones.length
+        while ((numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)){
+            // get current milestone
+
+            var m = schedule.milestones[milestoneIndex++]
+
+
+            // get number of columns for this milestone
+            var numColumnsForThisMilestone = ((m.numWeeks - m.numWeeksHidden) * NUM_COLUMNS_PER_WEEK)
+            numColumnsToDisplay = (numColumnsForThisMilestone <= numColumnsRemaining) ? numColumnsForThisMilestone : numColumnsRemaining
+            $('#MilestoneRow').append('<div class="col-xs-' + numColumnsToDisplay + ' border m"><h4>' + m.name + '</h4></div>');
+
+            var iterationIndex = m.hiddenIterations | 0
+            console.log('hidden iterations', iterationIndex)
+            var numIterations = m.iterations.length - m.hiddenIterations
+            while ((numColumnsRemaining > 0) && (iterationIndex < numIterations)){
+
+                // get current iteration
+
+                var i = m.iterations[iterationIndex++]
+                console.log('iteration: ', i)
+                //get number of columns for this iteration
+                var numColumnsForThisIteration = ((i.numWeeks - i.numWeeksHidden) * NUM_COLUMNS_PER_WEEK)
+                numColumnsToDisplay = (numColumnsForThisIteration <= numColumnsRemaining) ? numColumnsForThisIteration : numColumnsRemaining
+                var startDate = new Date(i.begin)
+                var endDate = new Date(i.end)
+                var iterationPeriod = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '-' + (endDate.getMonth() + 1) + '/' + endDate.getDate()
+                $('#IterationRow').append('<div class="col-xs-' + numColumnsToDisplay + ' iteration"><b>' + i.name + '</b> (' + iterationPeriod + ')</div>');
+
+
+
+
+
+                var weekIndex = i.hiddenWeeks | 0
+                console.log('hiddenweeks',weekIndex)
+                var numWeeks = i.weeks.length - i.hiddenWeeks
+                while ((numColumnsRemaining > 0) && (weekIndex < i.numWeeks)) {
+                    var w = i.weeks[weekIndex++]
+                    var weekStartDate = new Date(w.begin)
+
+                    $('#WeekRow').append('<div class="col-xs-' + NUM_COLUMNS_PER_WEEK + ' w"><b>' + (weekStartDate.getMonth() + 1) + '/' + (weekStartDate.getDate()) + '</b></div>');
                         //- div(class='col-xs-' + NUM_COLUMNS_PER_WEEK + ' w')
-                        b= (startDate.getMonth() + 1) + '/' + (startDate.getDate() )
-                    -numColumnsRemaining -= NUM_COLUMNS_PER_WEEK
+                        //b= (startDate.getMonth() + 1) + '/' + (startDate.getDate() )
+                    numColumnsRemaining -= NUM_COLUMNS_PER_WEEK
+                }
+            }
+        }
 
-        .row
-
-            .col-xs-2
-                .pull-right
-                    span.glyphicon.glyphicon-chevron-left.timeControl
-                    span.glyphicon.glyphicon-chevron-right.timeControl
-            while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
-                //-get current milestone
-                -var m = schedule.milestones[milestoneIndex]
-                -milestoneIndex++
-
-                //- get number of columns for this milestone
-                -var numColumnsForThisMilestone = m.numWeeks * NUM_COLUMNS_PER_WEEK
-                -numColumnsToDisplay = (numColumnsForThisMilestone <= numColumnsRemaining) ? numColumnsForThisMilestone : numColumnsRemaining
-                div(class='col-xs-' + numColumnsToDisplay + ' border m'): h4= m.name
-                -numColumnsRemaining -= numColumnsToDisplay
-
-
-        .row
-
-            .col-xs-2
-                .pull-right
-                    span.glyphicon.glyphicon-chevron-left.timeControl
-                    span.glyphicon.glyphicon-chevron-right.timeControl
-
-
-            //- reset variables that control loop
-            -numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
-            -milestoneIndex = 0
-
-
-
-            while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
-                //- get current milestone
-                -var m = schedule.milestones[milestoneIndex]
-                -milestoneIndex++
-
-                -var iterationIndex = 0
-                -var numIterations = m.iterations.length
-                while (numColumnsRemaining > 0) && (iterationIndex < numIterations)
-                    //- get current iteration
-                    -var i = m.iterations[iterationIndex]
-                    -iterationIndex++
-
-                    //get number of columns for this iteration
-                    -var numColumnsForThisIteration = i.numWeeks * NUM_COLUMNS_PER_WEEK
-                    -numColumnsToDisplay = (numColumnsForThisIteration <= numColumnsRemaining) ? numColumnsForThisIteration : numColumnsRemaining
-                    -var startDate = new Date(i.begin)
-                    -var endDate = new Date(i.end)
-                    -var iterationPeriod = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '-' + (endDate.getMonth() + 1) + '/' + endDate.getDate()
-                    div(class='col-xs-' + numColumnsToDisplay + ' iteration')
-                        b= i.name
-                            |  (#{iterationPeriod})
-                    -numColumnsRemaining -= numColumnsToDisplay
-
-        .row
-            .col-xs-2
-                .pull-right
-                    span.glyphicon.glyphicon-chevron-left.timeControl
-                    span.glyphicon.glyphicon-chevron-right.timeControl
-
-            //- reset variables that control loop
-            -numColumnsRemaining = MAX_COLUMNS_FOR_MILESTONES
-            -milestoneIndex = 0
-            
-            while (numColumnsRemaining > 0) && (milestoneIndex < NUM_MILESTONES)
-                //- get current milestone
-                -var m = schedule.milestones[milestoneIndex]
-                -milestoneIndex++
-                -var iterationIndex = 0
-                -var numIterations = m.iterations.length
-                while (numColumnsRemaining > 0) && (iterationIndex < numIterations)
-                    //- get current iteration
-                    -var i = m.iterations[iterationIndex++]
-                    -var weekIndex = 0
-                    -var numWeeks = i.weeks.length
-                    while (numColumnsRemaining > 0) && (weekIndex < numWeeks)
-                        -var w = i.weeks[weekIndex++]
-                        -var startDate = new Date(w.begin)
-                        -var weekDisplay = startDate.toLocaleDateString("en-us", DATE_FORMAT)
-                        script!= "$(document).ready( function(){$('#WeekRow').appendChild('<div class=\"col-xs-" + NUM_COLUMNS_PER_WEEK + " w\"><b>" + 'foo' + "</b></div>')})"
-
-
-                        //- div(class='col-xs-' + NUM_COLUMNS_PER_WEEK + ' w')
-                            b= (startDate.getMonth() + 1) + '/' + (startDate.getDate() )
-                        -numColumnsRemaining -= NUM_COLUMNS_PER_WEEK
+    .container
 
 
 
