@@ -42,8 +42,12 @@ block styles
 
         $(document).ready( function(){
           $( '.teamMember' ).click( function() {
-
-          })
+                var r = $(this).closest('.row')
+                var d = $('#taskTemplate').clone().attr("id", "newTask")
+                r.find('.panel-group').first().append(d)
+                initializeTasks()
+                d.show('slow')
+            })
 
           $( ".panel-group" ).sortable({
             connectWith: ".panel-group"
