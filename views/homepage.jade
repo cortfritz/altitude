@@ -28,23 +28,6 @@ mixin panel(title,body)
 
 block styles
     // Default home page
-    style.
-        #imagePanner {
-            -ms-scroll-snap-type: mandatory;
-            -ms-scroll-snap-points-x: snapInterval(0%, 100%);
-            overflow-x: auto;
-            overflow-y: hidden;
-            width: 480px;
-            height: 270px;
-        }
-        .imageRow {
-            width: 2400px;
-            height: 270px;
-        }
-        img {
-            width: 480px;
-            height: 270px;
-        }
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/styles/app.css', rel='stylesheet')
     script(src='http://code.jquery.com/jquery-1.9.0.js')
@@ -182,19 +165,14 @@ block body
                     span.icon-bar
                     span.icon-bar
                 a(href="../").navbar-brand.brand altitude
-                nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
-                    ul.nav.navbar-nav
-                        li.active
-                            a(href="/home") experiement
+            nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
+                ul.nav.navbar-nav
+                    li.active
+                        a(href="/home") experiement
 
 
 
     .container
-        .imagePanner
-            .imageRow
-                img(src='/images/visualStudio.jpg')
-                img(src='/images/visualStudio.jpg')
-                img(src='/images/visualStudio.jpg')
         #taskTemplate.panel.panel-default(style="display: none;")
             .panel-heading.fitText
                 .panel-title.pull-left
