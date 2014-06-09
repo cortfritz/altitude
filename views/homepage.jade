@@ -8,11 +8,21 @@ mixin taskPanel(panelGroupId, panelId, title, body, highlight)
                     a(data-toggle="collapse", data-parent='#' + panelGroupId, href='#' + panelId)= title
              .panel-collapse.collapse(id=panelId)
                 .panel-body.edit_area.editableTask= body
+                .btn-toolbar.pull-right
+                    .btn-group.btn-group-xs
+                        a( href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
+                            span.glyphicon.glyphicon-wrench
+                        a( href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
+                            span.glyphicon.glyphicon-envelope
+                    .btn-group.btn-group-xs
+                        button( type="button").btn
+                            span.glyphicon.glyphicon-ok.button-disabled
+                        button(type="button").btn
+                            span.glyphicon.glyphicon-remove.button-disabled
 
 
 block styles
     // Default home page
-
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/styles/app.css', rel='stylesheet')
     script(src='http://code.jquery.com/jquery-1.9.0.js')
@@ -73,6 +83,99 @@ block styles
                 });
             }
             initializeTasks()
+            function initializeTasks(){
+                $( ".panel-group" ).sortable({
+                    connectWith: ".panel-group"
+                    , handle: ".panel-heading"
+                }).disableSelection();
+
+                $('.forward-arrow').click( function() {
+                    var p = $(this).closest('.panel')
+                    var pg = p.closest('.w').next('.w')
+
+                    p.hide(150, function(){
+                        pg.find('.panel-group').prepend(p)
+                        p.show(150)
+                        });
+
+                })
+
+                $('.backward-arrow').click( function() {
+                    var p = $(this).closest('.panel')
+                    var pg = p.closest('.w').prev('.w')
+                    p.hide('fast', function(){
+                        pg.find('.panel-group').prepend(p)
+                        p.show('fast')
+                    });
+
+                })
+
+                $('.edit_area').editable(
+                    function(value, settings){
+                        console.log('editable',value,settings)
+                    }
+                    , {
+
+                        type: 'textarea'
+                        , indicator: 'Saving...'
+                        , tooltip: 'click to edit'
+                        , rows: 5
+                        , cssclass: 'editableTask'
+                });
+
+                $('.editableTask').click( function() {
+                    $('.glyphicon-ok').toggleClass('button-disabled');
+                })
+            }
+            initializeTasks()
+
+            $( '.teamMember' ).click( function() {
+                var r = $(this).closest('.row')
+                var d = $('#taskTemplate').clone().attr("id", "newTask")
+                r.find('.panel-group').first().prepend(d)
+                initializeTasks()
+                d.show('slow')
+            })
+            /*
+            $( ".panel-group" ).sortable({
+                connectWith: ".panel-group"
+            }).disableSelection();
+
+            $('.forward-arrow').click( function() {
+                var p = $(this).closest('.panel')
+                var pg = p.closest('.w').next('.w')
+
+                p.hide(150, function(){
+                  pg.find('.panel-group').prepend(p)
+                  p.show(150)
+                });
+            })
+
+            $('.backward-arrow').click( function() {
+                var p = $(this).closest('.panel')
+                var pg = p.closest('.w').prev('.w')
+                p.hide('fast', function(){
+                  pg.find('.panel-group').prepend(p)
+                  p.show('fast')
+                });
+            })
+
+            $('.edit_area').editable(
+            function(value, settings){
+                console.log('editable',value,settings)
+            }
+            , {
+                type: 'textarea'
+                , indicator: 'Saving...'
+                , tooltip: 'click to edit'
+                , rows: 5
+                , cssclass: 'editableTask'
+            });
+
+            $('.editableTask').click( function() {
+                $('.glyphicon-ok').toggleClass('button-disabled');
+            });
+            */
         });
 
         function toggleText(el){
@@ -98,14 +201,38 @@ block body
                     span.icon-bar
                     span.icon-bar
                 a(href="../").navbar-brand.brand altitude
-                nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
-                    ul.nav.navbar-nav
-                        li.active
-                            a(href="/home") experiement
+            nav(role="navigation").collapse.navbar-collapse.bs-navbar-collapse
+                ul.nav.navbar-nav
+                    li.active
+                        a(href="/home") experiement
 
 
 
     .container
+        #taskTemplate.panel.panel-default(style="display: none;")
+            .panel-heading.fitText
+                .panel-title.pull-left
+                    a(data-toggle="collapse", href="#") New Task
+                .btn-group.btn-group-xs.pull-right
+                    a(type="button").btn.backward-arrow
+                        span.glyphicon.glyphicon-arrow-left
+                    a(type="button").btn.forward-arrow
+                        span.glyphicon.glyphicon-arrow-right
+            .panel-collapse.collapse
+                .panel-body.edit_area.editableTask: i (endter title here)
+                .btn-toolbar.pull-right
+                    .btn-group.btn-group-xs
+                        a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
+                            span.glyphicon.glyphicon-wrench
+                        a(href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
+                            span.glyphicon.glyphicon-envelope
+                    .btn-group.btn-group-xs
+                        button(type="button").btn
+                            span.glyphicon.glyphicon-ok.button-disabled
+                        button(type="button").btn
+                            span.glyphicon.glyphicon-remove.button-disabled
+
+
         h1 Marketplace Services Plan
 
 
@@ -183,6 +310,7 @@ block body
                                         span.glyphicon.glyphicon-ok.button-disabled
                                     button(type="button").btn
                                         span.glyphicon.glyphicon-remove.button-disabled
+                    .completed(style="background-color:gray; color:white") &nbsp; v completed v
             .col-xs-2.w
                 .panel-group.connectedSortable
                     .panel.panel-default
