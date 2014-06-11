@@ -27,7 +27,8 @@ mixin taskPanel( title, body, highlight, id, style)
 
 mixin taskPanelGroup(title, body, highlight)
     .panel-group(style="height:100%;border: 3px white solid !important;")
-        +taskPanel(title, body, highlight)
+        if(title)
+            +taskPanel(title, body, highlight)
 
 block styles
     // Default home page
@@ -63,7 +64,7 @@ block styles
                     var pg = p.closest('.w').prev('.w')
                     p.hide('fast', function(){
                         pg.find('.panel-group').prepend(p)
-                        p.show('fast')
+                        p.show(150)
                     });
 
                 })
@@ -86,56 +87,20 @@ block styles
             }
             initializeTasks()
 
-            $( '.teamMember' ).click( function() {
-                var r = $(this).closest('.row')
-                var d = $('#taskTemplate').clone().attr("id", "newTask")
-                r.find('.panel-group').first().prepend(d)
+            $( '.weekHeading' ).click( function() {
+                var i = $(this).index()
+
+                var pg = $(this).closest('.row').next('.row').find('.panel-group')[i]
+
+                var t = $('#taskTemplate').clone().attr("id", "newTask")
+                $(pg).prepend(t)
                 initializeTasks()
-                d.show('slow')
+                t.show(200)
+
+
             })
 
 
-
-            /*
-            $( ".panel-group" ).sortable({
-                connectWith: ".panel-group"
-            }).disableSelection();
-
-            $('.forward-arrow').click( function() {
-                var p = $(this).closest('.panel')
-                var pg = p.closest('.w').next('.w')
-
-                p.hide(150, function(){
-                  pg.find('.panel-group').prepend(p)
-                  p.show(150)
-                });
-            })
-
-            $('.backward-arrow').click( function() {
-                var p = $(this).closest('.panel')
-                var pg = p.closest('.w').prev('.w')
-                p.hide('fast', function(){
-                  pg.find('.panel-group').prepend(p)
-                  p.show('fast')
-                });
-            })
-
-            $('.edit_area').editable(
-            function(value, settings){
-                console.log('editable',value,settings)
-            }
-            , {
-                type: 'textarea'
-                , indicator: 'Saving...'
-                , tooltip: 'click to edit'
-                , rows: 5
-                , cssclass: 'editableTask'
-            });
-
-            $('.editableTask').click( function() {
-                $('.glyphicon-ok').toggleClass('button-disabled');
-            });
-            */
         });
 
         function toggleText(el){
@@ -151,6 +116,8 @@ block styles
 
 
 block body
+    //- template for new task
+    +taskPanel("new task", "enter title here", "", "taskTemplate", "display: none;")
 
     header(role="banner").navbar.navbar-static-top.navbar-inverse
         .container-fluid
@@ -169,44 +136,16 @@ block body
 
 
     .container
-        +taskPanel("new task", "enter title here", "", "taskTemplate", "display: none;")
-        // #taskTemplate.panel.panel-default(style="display: none;")
-            .panel-heading.fitText
-                .panel-title.pull-left
-                    a(data-toggle="collapse", onclick="$(this).closest('.panel').find('.collapse').first().toggle();") New Task
-                .btn-group.btn-group-xs.pull-right
-                    a(type="button").btn.backward-arrow
-                        span.glyphicon.glyphicon-arrow-left
-                    a(type="button").btn.forward-arrow
-                        span.glyphicon.glyphicon-arrow-right
-            .panel-collapse.collapse
-                .panel-body.edit_area.editableTask enter title here
-                .btn-toolbar.pull-right
-                    .btn-group.btn-group-xs
-                        a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
-                            span.glyphicon.glyphicon-wrench
-                        a(href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
-                            span.glyphicon.glyphicon-envelope
-                    .btn-group.btn-group-xs
-                        button(type="button").btn
-                            span.glyphicon.glyphicon-ok.button-disabled
-                        button(type="button").btn
-                            span.glyphicon.glyphicon-remove.button-disabled
-
-
-        h1 Marketplace Services Plan
 
         .row
-            .col-xs-2 &nbsp;
             .col-xs-8.border.m
                 h2 M1
-            .col-xs-1.border.m
+            .col-xs-4.border.m
                 h2 M2
 
         .row
-          .col-xs-2 &nbsp;
           .col-xs-8.iteration: b i2 (June 2 - July 3)
-          .col-xs-1.iteration: b i3 (July 7 - August 1)
+          .col-xs-4.iteration: b i3 (July 7 - August 1)
         .row
             .col-xs-2 &nbsp;
             .col-xs-6.deliverable2.deliverable EXY on GiantSnow for Y2K video for PC
@@ -214,91 +153,38 @@ block body
             .col-xs-4 &nbsp;
             .col-xs-6.deliverable1.deliverable [DCR] Add a elephant trunk for Fubar Games
 
+        .row.teamMemberHeader
+            .col-xs-2.teamMember.weekHeading: b Frank Zhang (EHOME)
+            .col-xs-2.weekHeading: b 6-Jun
+            .col-xs-2.weekHeading: b 13-Jun
+            .col-xs-2.weekHeading: b 20-Jun
+            .col-xs-2.weekHeading: b 27-Jun
+            .col-xs-1: b 3-Jul
         .row
-            .col-xs-2: b Teammember
-            .col-xs-2.w: b 6-Jun
-            .col-xs-2.w: b 13-Jun
-            .col-xs-2.w: b 20-Jun
-            .col-xs-2.w: b 27-Jun
-            .col-xs-1.w: b 3-Jul
-        .row
-            .col-xs-2.teamMember Frank Zhang (EHOME)
             .col-xs-2.w
-                .panel-group.connectedSortable
-                    .panel.panel-default
-                        .panel-heading.fitText
-                            .panel-title.pull-left
-                                a(data-toggle="collapse", onclick="$(this).closest('.panel').find('.collapse').first().toggle();") In Progress
-                            .btn-group.btn-group-xs.pull-right
-                                a(type="button").btn.backward-arrow
-                                    span.glyphicon.glyphicon-arrow-left
-                                a(type="button").btn.forward-arrow
-                                    span.glyphicon.glyphicon-arrow-right
-                        .panel-collapse.collapse
-                            .panel-body.edit_area.editableTask [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
-                            .btn-toolbar.pull-right
-                                .btn-group.btn-group-xs
-                                    a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
-                                        span.glyphicon.glyphicon-wrench
-                                    a(href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
-                                        span.glyphicon.glyphicon-envelope
-                                .btn-group.btn-group-xs
-                                    button(type="button").btn
-                                        span.glyphicon.glyphicon-ok.button-disabled
-                                    button(type="button").btn
-                                        span.glyphicon.glyphicon-remove.button-disabled
-                    //.completed(style="background-color:gray; color:white") &nbsp; Jun 6 (+)
+                +taskPanelGroup(  'In Progress', '[BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006' )
+
 
             .col-xs-2.w
-                .panel-group.connectedSortable
-                    .panel.panel-default
-                        .panel-heading.fitText.deliverable2
-                          .panel-title.pull-left
-                            a(data-toggle="collapse", href="#collapseTwo") In Progress
-                          .btn-group.btn-group-xs.pull-right
-                            a(type="button").btn.backward-arrow
-                              span.glyphicon.glyphicon-arrow-left
-                            a(type="button").btn.forward-arrow
-                              span.glyphicon.glyphicon-arrow-right
-                        #collapseTwo.panel-collapse.collapse
-                            .panel-body.edit_area.editableTask [Content Deployment] Test the query banana of sideways penguin.
-                            .btn-toolbar.pull-right
-                              .btn-group.btn-group-xs
-                                a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
-                                  span.glyphicon.glyphicon-wrench
-                                a(href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
-                                  span.glyphicon.glyphicon-envelope
-                              .btn-group.btn-group-xs
-                                button(type="button").btn
-                                  span.glyphicon.glyphicon-ok.button-disabled
-                                button(type="button").btn
-                                  span.glyphicon.glyphicon-remove.button-disabled
+                +taskPanelGroup(  'In Progress', '[Content Deployment] Test the query banana of sideways penguin.' )
+                    taskPanel( 'Active', 'Dump platypus into swamp')
 
-                    .panel.panel-default
-                        .panel-heading
-                            p.panel-title.fitText
-                                a(data-toggle="collapse", data-parent="#accordion2", href="#collapseThree") Active
-                        #collapseThree.panel-collapse.collapse
-                            .panel-body.edit_area.editableTask Dump platypus into swamp
             .col-xs-2.w
-                .panel-group
-                    .panel.panel-default
-                        .panel-heading
-                            p.panel-title.fitText
-                                a(data-toggle="collapse", data-parent="#accordion3", href="#collapseA3c1"): i Buffer
-                        #collapseA3c1.panel-collapse.collapse
-                            .panel-body.edit_area.editableTask: i Buffer
+                +taskPanelGroup(  'Vacation', 'Vacation' )
             .col-xs-2.w
-                .panel-group
-                    .panel.panel-default
-                        .panel-heading
-                            p.panel-title.fitText
-                                a(data-toggle="collapse", data-parent="#accordion4", href="#collapseA4c1"): i Buffer
-                        #collapseA4c1.panel-collapse.collapse
-                            .panel-body.edit_area.editableTask: i Buffer
-
+                +taskPanelGroup(  'Vacation', 'Vacation' )
+            .col-xs-2.w
+                +taskPanelGroup(  'Vacation', 'Vacation' )
+            .col-xs-2.w
+                +taskPanelGroup(  'Vacation', 'Vacation' )
+        .row.teamMemberHeader
+            .col-xs-2.teamMember.weekHeading: b Doug Olson
+            .col-xs-2.weekHeading: b 6-Jun
+            .col-xs-2.weekHeading: b 13-Jun
+            .col-xs-2.weekHeading: b 20-Jun
+            .col-xs-2.weekHeading: b 27-Jun
+            .col-xs-1: b 3-Jul
         .row
-            .col-xs-2.teamMember Doug Olson (IEB)
             .col-xs-2.w
                 +taskPanelGroup(  'Complete', 'XYZX % Based discount dollar store' )
             .col-xs-2.w
@@ -307,29 +193,70 @@ block body
                 +taskPanelGroup(  'Vacation', 'Vacation' )
             .col-xs-2.w
                 +taskPanelGroup(  'Active', '[BDS on GiantSnow] Shadow-mode cut-over', 'deliverable2' )
-            .col-xs-1.w
+            .col-xs-2.w
                 +taskPanelGroup( 'Active', '[BDS on GiantSnow] Stabilization Buffer', 'deliverable2' )
+            .col-xs-2.w
+                +taskPanelGroup( 'Active', '[BDS on GiantSnow] Flipt that darn bit', 'deliverable2' )
+        .row.teamMemberHeader
+            .col-xs-2.teamMember.weekHeading: b Dennis Russell
+            .col-xs-2.weekHeading: b 6-Jun
+            .col-xs-2.weekHeading: b 13-Jun
+            .col-xs-2.weekHeading: b 20-Jun
+            .col-xs-2.weekHeading: b 27-Jun
+            .col-xs-1: b 3-Jul
         .row
-            .col-xs-2.teamMember Dennis Russell
-            .col-xs-2.w &nbsp;
-
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+        .row.teamMemberHeader
+            .col-xs-2.teamMember.weekHeading: b Reid Miller
+            .col-xs-2.weekHeading: b 6-Jun
+            .col-xs-2.weekHeading: b 13-Jun
+            .col-xs-2.weekHeading: b 20-Jun
+            .col-xs-2.weekHeading: b 27-Jun
+            .col-xs-1: b 3-Jul
         .row
-            .col-xs-2.teamMember Reid Miller
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+        .row.teamMemberHeader
+            .col-xs-2.teamMember.weekHeading: b Cyrus Jamula
+            .col-xs-2.weekHeading: b 6-Jun
+            .col-xs-2.weekHeading: b 13-Jun
+            .col-xs-2.weekHeading: b 20-Jun
+            .col-xs-2.weekHeading: b 27-Jun
+            .col-xs-1: b 3-Jul
         .row
-            .col-xs-2.teamMember Cyrus Jamula
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
-            .col-xs-2.w &nbsp;
-
-
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
+            .col-xs-2.w
+                +taskPanelGroup
 
 
 
