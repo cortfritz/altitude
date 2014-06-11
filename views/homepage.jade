@@ -1,25 +1,33 @@
 extends ./layout
 
-mixin taskPanel(panelGroupId, panelId, title, body, highlight)
-    .panel-group(id=panelGroupId)
-        .panel.panel-default
-            .panel-heading(class=highlight)
-                p.panel-title.fitText
-                    a(data-toggle="collapse", data-parent='#' + panelGroupId, href='#' + panelId)= title
-             .panel-collapse.collapse(id=panelId)
-                .panel-body.edit_area.editableTask= body
-                .btn-toolbar.pull-right
-                    .btn-group.btn-group-xs
-                        a( href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
-                            span.glyphicon.glyphicon-wrench
-                        a( href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
-                            span.glyphicon.glyphicon-envelope
-                    .btn-group.btn-group-xs
-                        button( type="button").btn
-                            span.glyphicon.glyphicon-ok.button-disabled
-                        button(type="button").btn
-                            span.glyphicon.glyphicon-remove.button-disabled
+mixin taskPanel( title, body, highlight, id, style)
+    .panel.panel-default(id=id, style=style)
+        .panel-heading(class=highlight).fitText
+            .panel-title.pull-left
+                a(data-toggle="collapse", onclick="$(this).closest('.panel').find('.collapse').first().toggle();")= title
+            .btn-group.btn-group-xs.pull-right
+                a(type="button").btn.backward-arrow
+                    span.glyphicon.glyphicon-arrow-left
+                a(type="button").btn.forward-arrow
+                    span.glyphicon.glyphicon-arrow-right
+        .panel-collapse.collapse
+            .panel-body.edit_area.editableTask= body
+            .btn-toolbar.pull-right
+                .btn-group.btn-group-xs
+                    a( href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
+                        span.glyphicon.glyphicon-wrench
+                    a( href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
+                        span.glyphicon.glyphicon-envelope
+                .btn-group.btn-group-xs
+                    button( type="button").btn
+                        span.glyphicon.glyphicon-ok.button-disabled
+                    button(type="button").btn
+                        span.glyphicon.glyphicon-remove.button-disabled
 
+
+mixin taskPanelGroup(title, body, highlight)
+    .panel-group(style="height:100%;border: 3px white solid !important;")
+        +taskPanel(title, body, highlight)
 
 block styles
     // Default home page
@@ -32,13 +40,7 @@ block styles
     script(type='text/javascript').
 
         $(document).ready( function(){
-            $( '.teamMember' ).click( function() {
-                var r = $(this).closest('.row')
-                var d = $('#taskTemplate').clone().attr("id", "newTask")
-                r.find('.panel-group').first().append(d)
-                initializeTasks()
-                d.show('slow')
-            })
+
 
             function initializeTasks(){
                 $( ".panel-group" ).sortable({
@@ -83,51 +85,6 @@ block styles
                 });
             }
             initializeTasks()
-            function initializeTasks(){
-                $( ".panel-group" ).sortable({
-                    connectWith: ".panel-group"
-                    , handle: ".panel-heading"
-                }).disableSelection();
-
-                $('.forward-arrow').click( function() {
-                    var p = $(this).closest('.panel')
-                    var pg = p.closest('.w').next('.w')
-
-                    p.hide(150, function(){
-                        pg.find('.panel-group').prepend(p)
-                        p.show(150)
-                        });
-
-                })
-
-                $('.backward-arrow').click( function() {
-                    var p = $(this).closest('.panel')
-                    var pg = p.closest('.w').prev('.w')
-                    p.hide('fast', function(){
-                        pg.find('.panel-group').prepend(p)
-                        p.show('fast')
-                    });
-
-                })
-
-                $('.edit_area').editable(
-                    function(value, settings){
-                        console.log('editable',value,settings)
-                    }
-                    , {
-
-                        type: 'textarea'
-                        , indicator: 'Saving...'
-                        , tooltip: 'click to edit'
-                        , rows: 5
-                        , cssclass: 'editableTask'
-                });
-
-                $('.editableTask').click( function() {
-                    $('.glyphicon-ok').toggleClass('button-disabled');
-                })
-            }
-            initializeTasks()
 
             $( '.teamMember' ).click( function() {
                 var r = $(this).closest('.row')
@@ -136,6 +93,9 @@ block styles
                 initializeTasks()
                 d.show('slow')
             })
+
+
+
             /*
             $( ".panel-group" ).sortable({
                 connectWith: ".panel-group"
@@ -209,17 +169,18 @@ block body
 
 
     .container
-        #taskTemplate.panel.panel-default(style="display: none;")
+        +taskPanel("new task", "enter title here", "", "taskTemplate", "display: none;")
+        // #taskTemplate.panel.panel-default(style="display: none;")
             .panel-heading.fitText
                 .panel-title.pull-left
-                    a(data-toggle="collapse", href="#") New Task
+                    a(data-toggle="collapse", onclick="$(this).closest('.panel').find('.collapse').first().toggle();") New Task
                 .btn-group.btn-group-xs.pull-right
                     a(type="button").btn.backward-arrow
                         span.glyphicon.glyphicon-arrow-left
                     a(type="button").btn.forward-arrow
                         span.glyphicon.glyphicon-arrow-right
             .panel-collapse.collapse
-                .panel-body.edit_area.editableTask: i (endter title here)
+                .panel-body.edit_area.editableTask enter title here
                 .btn-toolbar.pull-right
                     .btn-group.btn-group-xs
                         a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
@@ -234,30 +195,6 @@ block body
 
 
         h1 Marketplace Services Plan
-
-
-        #taskTemplate.panel.panel-default(style="display: none;")
-            .panel-heading.fitText
-                .panel-title.pull-left
-                    a(data-toggle="collapse", href="#") New Task
-                .btn-group.btn-group-xs.pull-right
-                    a(type="button").btn.backward-arrow
-                        span.glyphicon.glyphicon-arrow-left
-                    a(type="button").btn.forward-arrow
-                        span.glyphicon.glyphicon-arrow-right
-            .panel-collapse.collapse
-                .panel-body.edit_area.editableTask: i (endter title here)
-                .btn-toolbar.pull-right
-                    .btn-group.btn-group-xs
-                        a(href="https://microsoft.visualstudio.com/web/wi.aspx?pcguid=cb55739e-4afe-46a3-970f-1b49d8ee7564&id=149433", target="_blank").btn
-                            span.glyphicon.glyphicon-wrench
-                        a(href="mailto:cofritz@microsoft.com?subject=regarding task [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006").btn
-                            span.glyphicon.glyphicon-envelope
-                    .btn-group.btn-group-xs
-                        button(type="button").btn
-                            span.glyphicon.glyphicon-ok.button-disabled
-                        button(type="button").btn
-                            span.glyphicon.glyphicon-remove.button-disabled
 
         .row
             .col-xs-2 &nbsp;
@@ -297,7 +234,7 @@ block body
                                     span.glyphicon.glyphicon-arrow-left
                                 a(type="button").btn.forward-arrow
                                     span.glyphicon.glyphicon-arrow-right
-                        #collapseOne.panel-collapse.collapse
+                        .panel-collapse.collapse
                             .panel-body.edit_area.editableTask [BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006
                             .btn-toolbar.pull-right
                                 .btn-group.btn-group-xs
@@ -363,15 +300,15 @@ block body
         .row
             .col-xs-2.teamMember Doug Olson (IEB)
             .col-xs-2.w
-                +taskPanel( 'accordion5', 'collapseA5C1', 'Complete', 'XYZX % Based discount dollar store' )
+                +taskPanelGroup(  'Complete', 'XYZX % Based discount dollar store' )
             .col-xs-2.w
-                +taskPanel( 'accordion6', 'collapseA6C1', 'Active', 'XYZX and XYZY feature and bug Fixes' )
+                +taskPanelGroup( 'Active', 'XYZX and XYZY feature and bug Fixes' )
             .col-xs-2.w
-                +taskPanel( 'accordion7', 'collapseA7C1', 'Vacation', 'Vacation' )
+                +taskPanelGroup(  'Vacation', 'Vacation' )
             .col-xs-2.w
-                +taskPanel( 'accordion8', 'collapseA8C1', 'Active', '[BDS on GiantSnow] Shadow-mode cut-over', 'deliverable2' )
+                +taskPanelGroup(  'Active', '[BDS on GiantSnow] Shadow-mode cut-over', 'deliverable2' )
             .col-xs-1.w
-                +taskPanel( 'accordion9', 'collapseA9C1', 'Active', '[BDS on GiantSnow] Stabilization Buffer', 'deliverable2' )
+                +taskPanelGroup( 'Active', '[BDS on GiantSnow] Stabilization Buffer', 'deliverable2' )
         .row
             .col-xs-2.teamMember Dennis Russell
             .col-xs-2.w &nbsp;
