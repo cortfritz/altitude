@@ -42,7 +42,6 @@ block styles
 
         $(document).ready( function(){
 
-
             function initializeTasks(){
                 $( ".panel-group" ).sortable({
                     connectWith: ".panel-group"
@@ -147,43 +146,38 @@ block body
           .col-xs-8.iteration: b i2 (June 2 - July 3)
           .col-xs-4.iteration: b i3 (July 7 - August 1)
         .row
+            .col-xs-2.weekSchedule: b 13-Jun
+            .col-xs-2.weekSchedule: b 20-Jun
+            .col-xs-2.weekSchedule: b 27-Jun
+            .col-xs-2.weekSchedule: b 3-Jul
+            .col-xs-2.weekSchedule: b 11-Jul
+            .col-xs-2.weekSchedule: b 18-Jul
+        .row
             .col-xs-2 &nbsp;
             .col-xs-6.deliverable2.deliverable EXY on GiantSnow for Y2K video for PC
         .row
             .col-xs-4 &nbsp;
             .col-xs-6.deliverable1.deliverable [DCR] Add a elephant trunk for Fubar Games
 
-        .row.teamMemberHeader
-            .col-xs-2.teamMember.weekHeading: b Frank Zhang (EHOME)
-            .col-xs-2.weekHeading: b 6-Jun
-            .col-xs-2.weekHeading: b 13-Jun
-            .col-xs-2.weekHeading: b 20-Jun
-            .col-xs-2.weekHeading: b 27-Jun
-            .col-xs-1: b 3-Jul
+        .row
+            .col-xs-12.teamMember.weekHeading: b Frank Zhang (EHOME)
+
         .row
             .col-xs-2.w
                 +taskPanelGroup(  'In Progress', '[BDS - banda get off Zook] Add legacy subscription offer ID  to BDS response; Investigate BDS bug #205006' )
-
-
             .col-xs-2.w
                 +taskPanelGroup(  'In Progress', '[Content Deployment] Test the query banana of sideways penguin.' )
-                    taskPanel( 'Active', 'Dump platypus into swamp')
+            .col-xs-2.w
+                +taskPanelGroup(  'Vacation', 'Vacation' )
+            .col-xs-2.w
+                +taskPanelGroup(  'Vacation', 'Vacation' )
+            .col-xs-2.w
+                +taskPanelGroup(  'Vacation', 'Vacation' )
+            .col-xs-2.w
+                +taskPanelGroup(  'Vacation', 'Vacation' )
+        .row
+            .col-xs-12.teamMember.weekHeading: b Doug Olson
 
-            .col-xs-2.w
-                +taskPanelGroup(  'Vacation', 'Vacation' )
-            .col-xs-2.w
-                +taskPanelGroup(  'Vacation', 'Vacation' )
-            .col-xs-2.w
-                +taskPanelGroup(  'Vacation', 'Vacation' )
-            .col-xs-2.w
-                +taskPanelGroup(  'Vacation', 'Vacation' )
-        .row.teamMemberHeader
-            .col-xs-2.teamMember.weekHeading: b Doug Olson
-            .col-xs-2.weekHeading: b 6-Jun
-            .col-xs-2.weekHeading: b 13-Jun
-            .col-xs-2.weekHeading: b 20-Jun
-            .col-xs-2.weekHeading: b 27-Jun
-            .col-xs-1: b 3-Jul
         .row
             .col-xs-2.w
                 +taskPanelGroup(  'Complete', 'XYZX % Based discount dollar store' )
@@ -197,13 +191,9 @@ block body
                 +taskPanelGroup( 'Active', '[BDS on GiantSnow] Stabilization Buffer', 'deliverable2' )
             .col-xs-2.w
                 +taskPanelGroup( 'Active', '[BDS on GiantSnow] Flipt that darn bit', 'deliverable2' )
-        .row.teamMemberHeader
-            .col-xs-2.teamMember.weekHeading: b Dennis Russell
-            .col-xs-2.weekHeading: b 6-Jun
-            .col-xs-2.weekHeading: b 13-Jun
-            .col-xs-2.weekHeading: b 20-Jun
-            .col-xs-2.weekHeading: b 27-Jun
-            .col-xs-1: b 3-Jul
+        .row
+            .col-xs-12.teamMember.weekHeading: b Dennis Russell
+
         .row
             .col-xs-2.w
                 +taskPanelGroup
@@ -217,13 +207,9 @@ block body
                 +taskPanelGroup
             .col-xs-2.w
                 +taskPanelGroup
-        .row.teamMemberHeader
-            .col-xs-2.teamMember.weekHeading: b Reid Miller
-            .col-xs-2.weekHeading: b 6-Jun
-            .col-xs-2.weekHeading: b 13-Jun
-            .col-xs-2.weekHeading: b 20-Jun
-            .col-xs-2.weekHeading: b 27-Jun
-            .col-xs-1: b 3-Jul
+        .row
+            .col-xs-12.teamMember.weekHeading: b Reid Miller
+
         .row
             .col-xs-2.w
                 +taskPanelGroup
@@ -237,13 +223,9 @@ block body
                 +taskPanelGroup
             .col-xs-2.w
                 +taskPanelGroup
-        .row.teamMemberHeader
-            .col-xs-2.teamMember.weekHeading: b Cyrus Jamula
-            .col-xs-2.weekHeading: b 6-Jun
-            .col-xs-2.weekHeading: b 13-Jun
-            .col-xs-2.weekHeading: b 20-Jun
-            .col-xs-2.weekHeading: b 27-Jun
-            .col-xs-1: b 3-Jul
+        .row
+            .col-xs-12.teamMember.weekHeading: b Cyrus Jamula
+
         .row
             .col-xs-2.w
                 +taskPanelGroup

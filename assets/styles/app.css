@@ -23,11 +23,6 @@ a { display:block; /* Pre-existing code */ }
 
 }
 
-.invisitextarea {
-    border-style: none;
-    border-color: Transparent;
-    overflow: auto;
-}
 
 .deliverable1 {
     background-color: lightblue !important;
@@ -36,10 +31,9 @@ a { display:block; /* Pre-existing code */ }
 .deliverable2 {
     background-color: lightgreen !important;
 
+
 }
-.teamMemberHeader {
-    background-color:lightgray;
-}
+
 .iteration {
     background-color: darkgray;
     padding-left: 4px;
@@ -51,6 +45,7 @@ a { display:block; /* Pre-existing code */ }
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     white-space: nowrap;
+    color: white;
 }
 
 .m {
@@ -69,6 +64,17 @@ a { display:block; /* Pre-existing code */ }
 
 }
 
+.weekSchedule {
+    text-align: right;
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(211,211,211,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(211,211,211,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, rgba(255,255,255,1) 0%,rgba(211,211,211,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, rgba(255,255,255,1) 0%,rgba(211,211,211,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, rgba(255,255,255,1) 0%,rgba(211,211,211,1) 100%); /* IE10+ */
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%,rgba(211,211,211,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d3d3d3',GradientType=1 ); /* IE6-9 */
+}
 .w {
     padding-left: 1px;
     padding-right: 1px;
