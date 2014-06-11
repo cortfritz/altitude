@@ -119,7 +119,7 @@ block body
     +taskPanel("new task", "enter title here", "", "taskTemplate", "display: none;")
 
     header(role="banner").navbar.navbar-static-top.navbar-inverse
-        .container-fluid
+        .container
             .navbar-header
                 button.navbar-toggle(type="button", data-toggle="collapse", data-target=".bs-navbar-collapse")
                     span.sr-only Toggle navigation
@@ -168,7 +168,9 @@ block body
             .col-xs-2.w
                 +taskPanelGroup(  'In Progress', '[Content Deployment] Test the query banana of sideways penguin.' )
             .col-xs-2.w
-                +taskPanelGroup(  'Vacation', 'Vacation' )
+                .panel-group(style="height:100%;border: 3px white solid !important;")
+                    +taskPanel(  'Active', 'Pleculate the thimblecraster' )
+                    +taskPanel(  'Active', 'Shopishigulate the permuglishover' )
             .col-xs-2.w
                 +taskPanelGroup(  'Vacation', 'Vacation' )
             .col-xs-2.w
